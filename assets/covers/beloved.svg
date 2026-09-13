@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#3F2433"/>
+<g fill="none" stroke="#D9B77E" stroke-width="1.6" stroke-linecap="round">
+<path d="M100 200V96"/><path d="M100 150L72 122M72 122L60 128M72 122L70 106"/>
+<path d="M100 132L128 104M128 104L142 108M128 104L128 88"/><path d="M100 176L126 160M100 116L86 100"/>
+</g>
+<g fill="#D9B77E"><circle cx="60" cy="128" r="4"/><circle cx="70" cy="104" r="3.4"/><circle cx="142" cy="108" r="4"/><circle cx="128" cy="86" r="3.4"/><circle cx="126" cy="160" r="3.6"/><circle cx="86" cy="98" r="3.2"/><circle cx="100" cy="92" r="4.2"/></g>
+<line x1="60" y1="200" x2="140" y2="200" stroke="#D9B77E" stroke-width=".8"/>
+<text x="100" y="244" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="400" letter-spacing="0" fill="#F3E6D6" font-style="italic">Beloved</text>
+<text x="102" y="270" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="3" fill="#D9B77E">TONI MORRISON</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

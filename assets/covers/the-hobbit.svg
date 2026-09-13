@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#2E4B3C"/>
+<circle cx="148" cy="112" r="18" fill="#E8C88E"/>
+<path d="M0 238L48 168L74 198L118 128L200 232V300H0Z" fill="#C18F52" opacity=".55"/>
+<path d="M0 252L60 196L98 228L150 176L200 222V300H0Z" fill="#1F3529"/>
+<path d="M22 300C58 276 36 258 92 244S150 236 170 222" fill="none" stroke="#F3E7CF" stroke-width="1.6" stroke-dasharray="3 5"/>
+<text x="100" y="58" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="400" letter-spacing="0" fill="#F3E7CF" font-style="italic">The Hobbit</text>
+<text x="100" y="82" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="3" fill="#E8C88E">J.R.R. TOLKIEN</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

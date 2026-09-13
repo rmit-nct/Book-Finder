@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#EBCB98"/>
+<circle cx="138" cy="118" r="34" fill="#F8E7C6"/>
+<path d="M0 192C50 162 90 172 130 188S190 202 200 190V300H0Z" fill="#D2A064"/>
+<path d="M0 224C40 207 80 202 120 216S180 240 200 228V300H0Z" fill="#B97A3C"/>
+<path d="M0 260C50 242 110 248 200 264V300H0Z" fill="#7A4A2A"/>
+<text x="104" y="64" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="42" font-weight="400" letter-spacing="8" fill="#3B2415">DUNE</text>
+<text x="102" y="86" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="3" fill="#593A25">FRANK HERBERT</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#E6D3B8"/>
+<circle cx="100" cy="128" r="58" fill="#C18F52"/>
+<g fill="#593A25"><rect x="62" y="136" width="10" height="50" rx="5"/><circle cx="67" cy="128" r="6"/>
+<rect x="95" y="120" width="10" height="66" rx="5"/><circle cx="100" cy="111" r="6.5"/>
+<rect x="128" y="104" width="10" height="82" rx="5"/><circle cx="133" cy="94" r="7"/></g>
+<line x1="30" y1="186" x2="170" y2="186" stroke="#593A25" stroke-width="1.2"/>
+<text x="100" y="234" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-weight="400" letter-spacing="0" fill="#2A1A10">Sapiens</text>
+<text x="102" y="262" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="8.5" font-weight="600" letter-spacing="2.6" fill="#593A25">YUVAL NOAH HARARI</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

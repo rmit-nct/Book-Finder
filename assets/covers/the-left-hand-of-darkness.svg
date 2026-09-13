@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#DCE6EC"/>
+<circle cx="118" cy="168" r="46" fill="#24313B"/>
+<circle cx="84" cy="168" r="46" fill="#F7FAFB" opacity=".92"/>
+<circle cx="84" cy="168" r="46" fill="none" stroke="#24313B" stroke-width="1"/>
+<text x="100" y="56" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="18.5" font-weight="400" letter-spacing="0" fill="#24313B">The Left Hand</text>
+<text x="100" y="82" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="400" letter-spacing="0" fill="#24313B" font-style="italic">of Darkness</text>
+<text x="102" y="272" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="8.5" font-weight="600" letter-spacing="2.6" fill="#24313B">URSULA K. LE GUIN</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>
