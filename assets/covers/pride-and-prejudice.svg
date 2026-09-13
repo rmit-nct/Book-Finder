@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#F2E4DA"/>
+<rect x="12" y="12" width="176" height="276" fill="none" stroke="#8A5A48" stroke-width="1.2"/>
+<rect x="18" y="18" width="164" height="264" fill="none" stroke="#8A5A48" stroke-width=".6"/>
+<path d="M100 64l7 7-7 7-7-7z" fill="#A75724"/>
+<line x1="56" y1="71" x2="86" y2="71" stroke="#8A5A48" stroke-width=".8"/><line x1="114" y1="71" x2="144" y2="71" stroke="#8A5A48" stroke-width=".8"/>
+<text x="100" y="128" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="32" font-weight="400" letter-spacing="0" fill="#5E2E2A" font-style="italic">Pride</text>
+<text x="100" y="152" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="400" letter-spacing="0" fill="#8A5A48" font-style="italic">and</text>
+<text x="100" y="184" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="400" letter-spacing="0" fill="#5E2E2A" font-style="italic">Prejudice</text>
+<path d="M70 204c10 6 20 6 30 0s20-6 30 0" fill="none" stroke="#8A5A48" stroke-width=".8"/>
+<text x="102" y="246" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="3" fill="#5E2E2A">JANE AUSTEN</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

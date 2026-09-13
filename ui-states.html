@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI states · Neo BookFinder</title>
+  <meta name="description" content="Static showcase of every Neo BookFinder UI state for Phase 2 development.">
+  <meta name="theme-color" content="#FDFDFD">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&amp;family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&amp;display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="assets/logo-mark.svg" alt="" width="32" height="32">
+        <span class="brand__name"><span class="brand__neo">Neo</span> BookFinder</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="site-nav__list" role="list">
+          <li><a class="site-nav__link" href="index.html#discover">Discover</a></li>
+          <li><a class="site-nav__link" href="index.html#categories">Categories</a></li>
+          <li><a class="site-nav__link" href="index.html#favorites">Favorites <span class="count-badge" aria-label="2 saved">2</span></a></li>
+        </ul>
+      </nav>
+      <a class="header-link" href="https://openlibrary.org/" rel="noopener">
+        <span class="header-link__short">Open Library</span><span class="header-link__long">Data by Open Library</span>
+        <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container">
+      <header class="showcase-intro">
+        <p class="eyebrow">Phase 1 · Design review</p>
+        <h1 class="showcase-intro__title">UI state showcase</h1>
+        <p class="showcase-intro__text">Every state the app needs, shown as static markup so it can be reviewed before any JavaScript is written. Each block is labelled with when it appears. All content is placeholder sample data.</p>
+      </header>
+      <div class="showcase">
+        <nav class="showcase__toc" aria-labelledby="toc-title">
+          <h2 id="toc-title">States</h2>
+          <ol role="list">
+            <li><a href="#state-search"><span class="num">A</span>SearchBar states</a></li>
+            <li><a href="#state-welcome"><span class="num">1</span>Initial welcome</a></li>
+            <li><a href="#state-results"><span class="num">2</span>Populated results</a></li>
+            <li><a href="#state-loading"><span class="num">3</span>Search loading</a></li>
+            <li><a href="#state-no-results"><span class="num">4</span>No results</a></li>
+            <li><a href="#state-error"><span class="num">5</span>Network error</a></li>
+            <li><a href="#state-detail-loading"><span class="num">6</span>Detail loading</a></li>
+            <li><a href="#state-missing-cover"><span class="num">7</span>Missing cover</a></li>
+            <li><a href="#state-missing-description"><span class="num">8</span>Missing description</a></li>
+            <li><a href="#state-empty-favorites"><span class="num">9</span>Empty favorites</a></li>
+            <li><a href="#state-load-more"><span class="num">10</span>Load More states</a></li>
+          </ol>
+        </nav>
+        <div class="showcase__list">
+        <section class="state-block" id="state-search" aria-labelledby="state-search-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">A</span>
+            <h2 class="state-block__title" id="state-search-h">SearchBar states</h2>
+            <p class="state-block__meta">Hover and focus are forced here with <code>.is-hover</code> / <code>.is-focus</code> for review; in the app they come from <code>:hover</code> and <code>:focus-within</code>. Filled uses <code>:placeholder-shown</code>.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="variant-grid variant-grid--2">
+            <div class="variant">
+              <p class="variant__label">Default</p>
+              <!-- SearchBar · Phase 2: wrap in <form id="sb-default-form"> and make the button type="submit" -->
+              <div class="search" role="search" aria-label="Search books" id="sb-default" data-component="search-bar">
+                <div class="search__top">
+                  <label class="search__label" for="sb-default-input">Search the catalogue</label>
+                  <fieldset class="segmented">
+                    <legend class="segmented__legend">Search by</legend>
+                    <div class="segmented__track">
+                      <input class="segmented__input" type="radio" id="sb-default-mode-all" name="sb-default-mode" value="all" checked><label class="segmented__option" for="sb-default-mode-all">All</label>
+                      <input class="segmented__input" type="radio" id="sb-default-mode-title" name="sb-default-mode" value="title"><label class="segmented__option" for="sb-default-mode-title">Title</label>
+                      <input class="segmented__input" type="radio" id="sb-default-mode-author" name="sb-default-mode" value="author"><label class="segmented__option" for="sb-default-mode-author">Author</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="search__field">
+                  <div class="search__control">
+                    <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="search__input" id="sb-default-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="sb-default-help">
+                  </div>
+                  <button class="btn btn--primary search__submit" id="sb-default-button" type="button">Search</button>
+                </div>
+                <p class="search__help" id="sb-default-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Hover</p>
+              <!-- SearchBar · Phase 2: wrap in <form id="sb-hover-form"> and make the button type="submit" -->
+              <div class="search" role="search" aria-label="Search books" id="sb-hover" data-component="search-bar">
+                <div class="search__top">
+                  <label class="search__label" for="sb-hover-input">Search the catalogue</label>
+                  <fieldset class="segmented">
+                    <legend class="segmented__legend">Search by</legend>
+                    <div class="segmented__track">
+                      <input class="segmented__input" type="radio" id="sb-hover-mode-all" name="sb-hover-mode" value="all" checked><label class="segmented__option" for="sb-hover-mode-all">All</label>
+                      <input class="segmented__input" type="radio" id="sb-hover-mode-title" name="sb-hover-mode" value="title"><label class="segmented__option" for="sb-hover-mode-title">Title</label>
+                      <input class="segmented__input" type="radio" id="sb-hover-mode-author" name="sb-hover-mode" value="author"><label class="segmented__option" for="sb-hover-mode-author">Author</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="search__field">
+                  <div class="search__control is-hover">
+                    <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="search__input" id="sb-hover-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="sb-hover-help">
+                  </div>
+                  <button class="btn btn--primary search__submit" id="sb-hover-button" type="button">Search</button>
+                </div>
+                <p class="search__help" id="sb-hover-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Focus-visible</p>
+              <!-- SearchBar · Phase 2: wrap in <form id="sb-focus-form"> and make the button type="submit" -->
+              <div class="search" role="search" aria-label="Search books" id="sb-focus" data-component="search-bar">
+                <div class="search__top">
+                  <label class="search__label" for="sb-focus-input">Search the catalogue</label>
+                  <fieldset class="segmented">
+                    <legend class="segmented__legend">Search by</legend>
+                    <div class="segmented__track">
+                      <input class="segmented__input" type="radio" id="sb-focus-mode-all" name="sb-focus-mode" value="all" checked><label class="segmented__option" for="sb-focus-mode-all">All</label>
+                      <input class="segmented__input" type="radio" id="sb-focus-mode-title" name="sb-focus-mode" value="title"><label class="segmented__option" for="sb-focus-mode-title">Title</label>
+                      <input class="segmented__input" type="radio" id="sb-focus-mode-author" name="sb-focus-mode" value="author"><label class="segmented__option" for="sb-focus-mode-author">Author</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="search__field">
+                  <div class="search__control is-focus">
+                    <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="search__input" id="sb-focus-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="sb-focus-help">
+                  </div>
+                  <button class="btn btn--primary search__submit" id="sb-focus-button" type="button">Search</button>
+                </div>
+                <p class="search__help" id="sb-focus-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Filled</p>
+              <!-- SearchBar · Phase 2: wrap in <form id="sb-filled-form"> and make the button type="submit" -->
+              <div class="search" role="search" aria-label="Search books" id="sb-filled" data-component="search-bar">
+                <div class="search__top">
+                  <label class="search__label" for="sb-filled-input">Search the catalogue</label>
+                  <fieldset class="segmented">
+                    <legend class="segmented__legend">Search by</legend>
+                    <div class="segmented__track">
+                      <input class="segmented__input" type="radio" id="sb-filled-mode-all" name="sb-filled-mode" value="all" checked><label class="segmented__option" for="sb-filled-mode-all">All</label>
+                      <input class="segmented__input" type="radio" id="sb-filled-mode-title" name="sb-filled-mode" value="title"><label class="segmented__option" for="sb-filled-mode-title">Title</label>
+                      <input class="segmented__input" type="radio" id="sb-filled-mode-author" name="sb-filled-mode" value="author"><label class="segmented__option" for="sb-filled-mode-author">Author</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="search__field">
+                  <div class="search__control">
+                    <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="search__input" id="sb-filled-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="sb-filled-help" value="ursula le guin">
+                  </div>
+                  <button class="btn btn--primary search__submit" id="sb-filled-button" type="button">Search</button>
+                </div>
+                <p class="search__help" id="sb-filled-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Disabled (while a request is in flight)</p>
+              <!-- SearchBar · Phase 2: wrap in <form id="sb-disabled-form"> and make the button type="submit" -->
+              <div class="search" role="search" aria-label="Search books" id="sb-disabled" data-component="search-bar">
+                <div class="search__top">
+                  <label class="search__label" for="sb-disabled-input">Search the catalogue</label>
+                  <fieldset class="segmented">
+                    <legend class="segmented__legend">Search by</legend>
+                    <div class="segmented__track">
+                      <input class="segmented__input" type="radio" id="sb-disabled-mode-all" name="sb-disabled-mode" value="all" checked disabled><label class="segmented__option" for="sb-disabled-mode-all">All</label>
+                      <input class="segmented__input" type="radio" id="sb-disabled-mode-title" name="sb-disabled-mode" value="title" disabled><label class="segmented__option" for="sb-disabled-mode-title">Title</label>
+                      <input class="segmented__input" type="radio" id="sb-disabled-mode-author" name="sb-disabled-mode" value="author" disabled><label class="segmented__option" for="sb-disabled-mode-author">Author</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="search__field">
+                  <div class="search__control">
+                    <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                    <input class="search__input" id="sb-disabled-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="sb-disabled-help" disabled>
+                  </div>
+                  <button class="btn btn--primary search__submit" id="sb-disabled-button" type="button" disabled>Search</button>
+                </div>
+                <p class="search__help" id="sb-disabled-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+              </div>
+            </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-welcome" aria-labelledby="state-welcome-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">1</span>
+            <h2 class="state-block__title" id="state-welcome-h">Initial welcome state</h2>
+            <p class="state-block__meta">Shown before the first search, in place of <code>#results-grid</code>.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="welcome">
+              <img class="welcome__art" src="assets/illustrations/welcome.svg" alt="" width="240" height="180">
+              <div>
+                <p class="eyebrow">Start here</p>
+                <h3 class="welcome__title">What would you like to read next?</h3>
+                <p class="welcome__text">Search by title, author or keyword. Each result shows the cover, author and first publication year.</p>
+                <ul class="state__list" role="list" aria-label="Popular searches">
+                  <li><button class="suggestion" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Dune</button></li>
+                  <li><button class="suggestion" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Toni Morrison</button></li>
+                  <li><button class="suggestion" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Stoicism</button></li>
+                  <li><button class="suggestion" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Poetry</button></li>
+                  <li><button class="suggestion" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Space opera</button></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-results" aria-labelledby="state-results-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">2</span>
+            <h2 class="state-block__title" id="state-results-h">Populated results state</h2>
+            <p class="state-block__meta">Toolbar and BookCards after a successful search. Grid columns: 2 → 3 → 4.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="toolbar" role="group" aria-label="Refine results">
+              <p class="toolbar__count" id="s2-count"><strong>4</strong> of 1,284 results for <q>science fiction</q></p>
+              <div class="toolbar__controls">
+                <div class="select select--subject">
+                  <label class="select__label" for="s2-subject">Subject</label>
+                  <select id="s2-subject" name="subject">
+                    <option selected>All subjects</option>
+                    <option>Fiction</option>
+                    <option>Science fiction</option>
+                    <option>Fantasy</option>
+                    <option>Classics</option>
+                    <option>History</option>
+                    <option>Self-improvement</option>
+                  </select>
+                  <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div class="select select--year">
+                  <label class="select__label" for="s2-year">Year</label>
+                  <select id="s2-year" name="year">
+                    <option selected>Any year</option>
+                    <option>Before 1900</option>
+                    <option>1900–1949</option>
+                    <option>1950–1999</option>
+                    <option>2000 onwards</option>
+                  </select>
+                  <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+                <div class="select select--sort">
+                  <label class="select__label" for="s2-sort">Sort</label>
+                  <select id="s2-sort" name="sort">
+                    <option selected>Relevance</option>
+                    <option>Newest first</option>
+                    <option>Oldest first</option>
+                    <option>Title A–Z</option>
+                    <option>Most editions</option>
+                  </select>
+                  <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </div>
+              <div class="view-toggle" role="group" aria-label="Result layout">
+                <button class="icon-btn" type="button" aria-pressed="true" aria-label="Grid view"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></button>
+                <button class="icon-btn" type="button" aria-pressed="false" aria-label="List view"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></button>
+              </div>
+            </div>
+            <ul class="demo-grid" role="list" aria-label="Sample results">
+              <li>
+                <article class="book-card" aria-labelledby="s2-dune-title">
+                  <div class="book-card__cover">
+                    <img src="assets/covers/dune.svg" alt="Cover of Dune by Frank Herbert" width="200" height="300" loading="lazy" decoding="async">
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Science fiction</p>
+                    <h3 class="book-card__title" id="s2-dune-title">Dune</h3>
+                    <p class="book-card__author">Frank Herbert</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1965</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>112 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Dune</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="true" aria-label="Save Dune to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li>
+                <article class="book-card" aria-labelledby="s2-the-left-hand-of-darkness-title">
+                  <div class="book-card__cover">
+                    <img src="assets/covers/the-left-hand-of-darkness.svg" alt="Cover of The Left Hand of Darkness by Ursula K. Le Guin" width="200" height="300" loading="lazy" decoding="async">
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Science fiction</p>
+                    <h3 class="book-card__title" id="s2-the-left-hand-of-darkness-title">The Left Hand of Darkness</h3>
+                    <p class="book-card__author">Ursula K. Le Guin</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1969</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>97 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Left Hand of Darkness</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Left Hand of Darkness to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li>
+                <article class="book-card" aria-labelledby="s2-1984-title">
+                  <div class="book-card__cover">
+                    <img src="assets/covers/1984.svg" alt="Cover of 1984 by George Orwell" width="200" height="300" loading="lazy" decoding="async">
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Dystopian fiction</p>
+                    <h3 class="book-card__title" id="s2-1984-title">1984</h3>
+                    <p class="book-card__author">George Orwell</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1949</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>342 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: 1984</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save 1984 to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li>
+                <article class="book-card" aria-labelledby="s2-the-handmaids-tale-title">
+                  <div class="book-card__cover">
+                    <img src="assets/covers/the-handmaids-tale.svg" alt="Cover of The Handmaid’s Tale by Margaret Atwood" width="200" height="300" loading="lazy" decoding="async">
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Dystopian fiction</p>
+                    <h3 class="book-card__title" id="s2-the-handmaids-tale-title">The Handmaid’s Tale</h3>
+                    <p class="book-card__author">Margaret Atwood</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1985</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>118 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Handmaid’s Tale</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Handmaid’s Tale to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="state-block" id="state-loading" aria-labelledby="state-loading-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">3</span>
+            <h2 class="state-block__title" id="state-loading-h">Search-loading state</h2>
+            <p class="state-block__meta">Skeleton cards match the BookCard size. The shimmer stops under <code>prefers-reduced-motion</code>.</p>
+          </div>
+          <div class="state-block__canvas">
+            <p class="status-line" role="status"><span class="spinner" aria-hidden="true"></span>Searching Open Library for <q>le guin</q>…</p>
+            <ul class="demo-grid" role="list" aria-busy="true" aria-label="Loading results">
+              <li>
+                <div class="book-card book-card--skeleton" aria-hidden="true">
+                  <span class="skeleton skeleton--cover"></span>
+                  <div class="book-card__body">
+                    <span class="skeleton skeleton--line skeleton--w40"></span>
+                    <span class="skeleton skeleton--title"></span>
+                    <span class="skeleton skeleton--title skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--meta"></span>
+                    <div class="book-card__actions"><span class="skeleton skeleton--link"></span><span class="skeleton skeleton--circle"></span></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="book-card book-card--skeleton" aria-hidden="true">
+                  <span class="skeleton skeleton--cover"></span>
+                  <div class="book-card__body">
+                    <span class="skeleton skeleton--line skeleton--w40"></span>
+                    <span class="skeleton skeleton--title"></span>
+                    <span class="skeleton skeleton--title skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--meta"></span>
+                    <div class="book-card__actions"><span class="skeleton skeleton--link"></span><span class="skeleton skeleton--circle"></span></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="book-card book-card--skeleton" aria-hidden="true">
+                  <span class="skeleton skeleton--cover"></span>
+                  <div class="book-card__body">
+                    <span class="skeleton skeleton--line skeleton--w40"></span>
+                    <span class="skeleton skeleton--title"></span>
+                    <span class="skeleton skeleton--title skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--meta"></span>
+                    <div class="book-card__actions"><span class="skeleton skeleton--link"></span><span class="skeleton skeleton--circle"></span></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="book-card book-card--skeleton" aria-hidden="true">
+                  <span class="skeleton skeleton--cover"></span>
+                  <div class="book-card__body">
+                    <span class="skeleton skeleton--line skeleton--w40"></span>
+                    <span class="skeleton skeleton--title"></span>
+                    <span class="skeleton skeleton--title skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--w55"></span>
+                    <span class="skeleton skeleton--line skeleton--meta"></span>
+                    <div class="book-card__actions"><span class="skeleton skeleton--link"></span><span class="skeleton skeleton--circle"></span></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="state-block" id="state-no-results" aria-labelledby="state-no-results-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">4</span>
+            <h2 class="state-block__title" id="state-no-results-h">No-results state</h2>
+            <p class="state-block__meta">The request succeeded but <code>numFound</code> is 0. The empty-input case can reuse this layout with its own copy.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="state" role="status">
+              <img class="state__art" src="assets/illustrations/no-results.svg" alt="" width="200" height="160">
+              <h3 class="state__title">No books match <q>zxqv novel</q></h3>
+              <p class="state__text">Check the spelling, try fewer words, or search by author instead. Switching the filter back to “All” can also help.</p>
+              <div class="state__actions">
+                <button class="btn" type="button"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>Clear search</button>
+                <a class="btn btn--ghost" href="index.html#categories">Browse trending subjects</a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-error" aria-labelledby="state-error-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">5</span>
+            <h2 class="state-block__title" id="state-error-h">Network-error state</h2>
+            <p class="state-block__meta">The request failed (offline, timeout or a 5xx response). Use <code>role="alert"</code> when it appears.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="state state--error" role="alert">
+              <img class="state__art" src="assets/illustrations/network-error.svg" alt="" width="200" height="160">
+              <p class="state__label"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4 2.5 20h19L12 4z"/><path d="M12 10v4M12 17.5v.01"/></svg>Connection problem</p>
+              <h3 class="state__title">We couldn’t reach Open Library</h3>
+              <p class="state__text">Your search didn’t go through. Check your connection and try again. Your filters and search text are kept.</p>
+              <div class="state__actions">
+                <button class="btn btn--primary" type="button"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>Retry</button>
+              </div>
+              <p class="state__hint">Technical detail: <span class="state__code">request timed out</span></p>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-detail-loading" aria-labelledby="state-detail-loading-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">6</span>
+            <h2 class="state-block__title" id="state-detail-loading-h">Detail-loading state</h2>
+            <p class="state-block__meta">Shown while the work record (<code>/works/{id}.json</code>) loads. Same layout as the DetailView, so nothing jumps.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="detail detail--loading" aria-busy="true">
+              <div class="detail__media">
+                <div class="detail__stage"><span class="skeleton skeleton--cover"></span></div>
+                <div class="detail__actions"><span class="skeleton skeleton--btn"></span><span class="skeleton skeleton--btn"></span></div>
+              </div>
+              <div class="detail__content">
+                <p class="status-line" role="status"><span class="spinner" aria-hidden="true"></span>Loading book details…</p>
+                <div class="skeleton-stack" aria-hidden="true">
+                  <span class="skeleton skeleton--line skeleton--w40"></span>
+                  <span class="skeleton skeleton--h1"></span>
+                  <span class="skeleton skeleton--line skeleton--w40"></span>
+                </div>
+                <span class="skeleton skeleton--facts" aria-hidden="true"></span>
+                <div class="skeleton-stack" aria-hidden="true">
+                  <span class="skeleton skeleton--title skeleton--w40"></span>
+                  <span class="skeleton skeleton--line skeleton--w90"></span>
+                  <span class="skeleton skeleton--line"></span>
+                  <span class="skeleton skeleton--line skeleton--w90"></span>
+                  <span class="skeleton skeleton--line skeleton--w55"></span>
+                </div>
+                <div class="tag-list" aria-hidden="true"><span class="skeleton skeleton--pill"></span><span class="skeleton skeleton--pill"></span><span class="skeleton skeleton--pill"></span><span class="skeleton skeleton--pill"></span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-missing-cover" aria-labelledby="state-missing-cover-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">7</span>
+            <h2 class="state-block__title" id="state-missing-cover-h">Missing-cover card</h2>
+            <p class="state-block__meta">Used when a result has no <code>cover_i</code>. A local placeholder plus the typeset title keeps the grid even. Shown with a normal card, and in list view.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="variant-grid variant-grid--2">
+            <div class="variant">
+              <p class="variant__label">Grid card</p>
+              <ul class="demo-grid demo-grid--pair" role="list">
+              <li>
+                <article class="book-card" aria-labelledby="s7-the-master-and-margarita-title">
+                  <div class="book-card__cover book-card__cover--missing">
+                    <img src="assets/book-placeholder.svg" alt="No cover available for The Master and Margarita" width="200" height="300" loading="lazy" decoding="async">
+                    <div class="cover-fallback" aria-hidden="true">
+                      <span class="cover-fallback__title">The Master and Margarita</span>
+                      <span class="cover-fallback__author">Mikhail Bulgakov</span>
+                    </div>
+                    <span class="cover-fallback__note" aria-hidden="true">No cover</span>
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Satire</p>
+                    <h3 class="book-card__title" id="s7-the-master-and-margarita-title">The Master and Margarita</h3>
+                    <p class="book-card__author">Mikhail Bulgakov</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1967</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>156 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Master and Margarita</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Master and Margarita to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              <li>
+                <article class="book-card" aria-labelledby="s7-beloved-title">
+                  <div class="book-card__cover">
+                    <img src="assets/covers/beloved.svg" alt="Cover of Beloved by Toni Morrison" width="200" height="300" loading="lazy" decoding="async">
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Historical fiction</p>
+                    <h3 class="book-card__title" id="s7-beloved-title">Beloved</h3>
+                    <p class="book-card__author">Toni Morrison</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1987</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>84 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Beloved</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save Beloved to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              </ul>
+            </div>
+            <div class="variant">
+              <p class="variant__label">List view (.book-grid--list)</p>
+              <ul class="book-grid book-grid--list" role="list">
+              <li>
+                <article class="book-card" aria-labelledby="s7l-the-master-and-margarita-title">
+                  <div class="book-card__cover book-card__cover--missing">
+                    <img src="assets/book-placeholder.svg" alt="No cover available for The Master and Margarita" width="200" height="300" loading="lazy" decoding="async">
+                    <div class="cover-fallback" aria-hidden="true">
+                      <span class="cover-fallback__title">The Master and Margarita</span>
+                      <span class="cover-fallback__author">Mikhail Bulgakov</span>
+                    </div>
+                    <span class="cover-fallback__note" aria-hidden="true">No cover</span>
+                  </div>
+                  <div class="book-card__body">
+                    <p class="book-card__subject">Satire</p>
+                    <h3 class="book-card__title" id="s7l-the-master-and-margarita-title">The Master and Margarita</h3>
+                    <p class="book-card__author">Mikhail Bulgakov</p>
+                    <dl class="book-card__meta">
+                      <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1967</dd></div>
+                      <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>156 editions</dd></div>
+                    </dl>
+                    <div class="book-card__actions">
+                      <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Master and Margarita</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                      <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Master and Margarita to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+              </ul>
+            </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-missing-description" aria-labelledby="state-missing-description-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">8</span>
+            <h2 class="state-block__title" id="state-missing-description-h">Missing-description detail state</h2>
+            <p class="state-block__meta">The work has no <code>description</code>. The notice replaces the prose and every other section still renders. This record also has no cover.</p>
+          </div>
+          <div class="state-block__canvas state-block__canvas--plain">
+            <!-- DetailView · Phase 2 can render this inside a page or a <dialog> -->
+            <article class="detail" id="s8-detail" aria-labelledby="s8-detail-title" data-component="detail-view">
+              <div class="detail__media">
+                <div class="detail__stage">
+                  <div class="detail__cover"><img src="assets/book-placeholder.svg" alt="No cover available for The Master and Margarita" width="200" height="300"><div class="cover-fallback" aria-hidden="true"><span class="cover-fallback__title">The Master and Margarita</span><span class="cover-fallback__author">Mikhail Bulgakov</span></div></div>
+                </div>
+                <div class="detail__actions">
+                  <button class="btn btn--lg fav-toggle" id="s8-detail-favorite" type="button" aria-pressed="false"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg><span>Add to favorites</span></button>
+                  <a class="btn btn--primary btn--lg" href="https://openlibrary.org/search?q=The+Master+and+Margarita" rel="noopener">View on Open Library<svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+                </div>
+              </div>
+              <div class="detail__content">
+                <div class="detail__intro">
+                  <p class="eyebrow">Satire</p>
+                  <h3 class="detail__title" id="s8-detail-title">The Master and Margarita</h3>
+                  <p class="detail__author">by <strong>Mikhail Bulgakov</strong></p>
+                </div>
+                <dl class="facts" aria-label="Publication information">
+                    <div><dt>First published</dt><dd>1967</dd></div>
+                    <div><dt>Editions</dt><dd>156</dd></div>
+                    <div><dt>Languages</dt><dd>24</dd></div>
+                    <div><dt>Median pages</dt><dd>—</dd></div>
+                </dl>
+                <section class="detail__section" aria-labelledby="s8-detail-about">
+                  <h4 class="detail__section-title" id="s8-detail-about">About this book</h4>
+                    <div class="notice" role="note">
+                      <svg class="notice__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6h14M5 10h14M5 14h9"/></svg>
+                      <p class="notice__title">No description available yet</p>
+                      <p>Open Library doesn’t have a summary for this work. Subjects and edition details are shown below, and the full record may include notes from individual editions.</p>
+                    </div>
+                </section>
+                <section class="detail__section" aria-labelledby="s8-detail-subjects">
+                  <h4 class="detail__section-title" id="s8-detail-subjects">Subjects</h4>
+                  <ul class="tag-list" role="list">
+                      <li><a class="tag" href="index.html#discover">Satire</a></li>
+                      <li><a class="tag" href="index.html#discover">Fantasy fiction</a></li>
+                      <li><a class="tag" href="index.html#discover">Moscow</a></li>
+                      <li><a class="tag" href="index.html#discover">Russian literature</a></li>
+                  </ul>
+                </section>
+                <section class="detail__section edition-panel" aria-labelledby="s8-detail-edition">
+                  <h4 class="detail__section-title" id="s8-detail-edition">Edition information</h4>
+                  <dl class="edition-grid">
+                      <div><dt><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>First edition</dt><dd>YMCA Press, 1967</dd></div>
+                      <div><dt><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V6l8-3 8 3v14"/><path d="M9 20v-5h6v5M4 20h16"/></svg>Publishers</dt><dd>Vintage, Penguin Classics, Grove Press <span class="more">+ 41 more</span></dd></div>
+                      <div><dt><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>Languages</dt><dd>Russian, English, German, French <span class="more">+ 20 more</span></dd></div>
+                      <div><dt><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg>Sample ISBN</dt><dd>Not listed for this record</dd></div>
+                  </dl>
+                </section>
+                <p class="detail__source"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5C6.8 5.3 9.5 5.5 12 7v12c-2.5-1.5-5.2-1.7-8-.5z"/><path d="M20 6.5C17.2 5.3 14.5 5.5 12 7v12c2.5-1.5 5.2-1.7 8-.5z"/></svg>Record from Open Library. Details can differ between editions.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+        <section class="state-block" id="state-empty-favorites" aria-labelledby="state-empty-favorites-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">9</span>
+            <h2 class="state-block__title" id="state-empty-favorites-h">Empty-favorites state</h2>
+            <p class="state-block__meta">Favorites view when <code>localStorage</code> has no saved books.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="state">
+              <img class="state__art" src="assets/illustrations/empty-favorites.svg" alt="" width="200" height="160">
+              <h3 class="state__title">Your favorites shelf is empty</h3>
+              <p class="state__text">Tap the heart on any book to keep it here. Favorites are saved in this browser, so they stay after you close the tab.</p>
+              <div class="state__actions">
+                <a class="btn btn--primary" href="index.html#discover">Explore books<svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="state-block" id="state-load-more" aria-labelledby="state-load-more-h">
+          <div class="state-block__head">
+            <span class="state-block__num" aria-hidden="true">10</span>
+            <h2 class="state-block__title" id="state-load-more-h">Load More states</h2>
+            <p class="state-block__meta">Button below <code>#results-grid</code>. While loading, keep the button in place and add <code>disabled</code> and <code>aria-busy="true"</code>.</p>
+          </div>
+          <div class="state-block__canvas">
+            <div class="variant-grid variant-grid--2 variant-grid--5">
+            <div class="variant">
+              <p class="variant__label">Default</p>
+              <div class="load-more" id="lm-default">
+                <p class="load-more__count" id="lm-default-count"><span>Showing <strong>12</strong> of 2,316 books</span></p>
+                <button class="btn btn--lg load-more__btn" id="lm-default-button" type="button">
+                  <span class="btn__label">Load more books</span>
+                  <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Hover (.is-hover)</p>
+              <div class="load-more" id="lm-hover">
+                <button class="btn btn--lg load-more__btn is-hover" id="lm-hover-button" type="button">
+                  <span class="btn__label">Load more books</span>
+                  <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Focus-visible (.is-focus)</p>
+              <div class="load-more" id="lm-focus">
+                <button class="btn btn--lg load-more__btn is-focus" id="lm-focus-button" type="button">
+                  <span class="btn__label">Load more books</span>
+                  <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Loading (.is-loading + aria-busy)</p>
+              <div class="load-more" id="lm-loading">
+                <button class="btn btn--lg load-more__btn is-loading" id="lm-loading-button" type="button" disabled aria-busy="true">
+                  <span class="btn__label">Loading more books…</span>
+                  <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">Disabled</p>
+              <div class="load-more" id="lm-disabled">
+                <button class="btn btn--lg load-more__btn" id="lm-disabled-button" type="button" disabled>
+                  <span class="btn__label">Load more books</span>
+                  <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+                  <span class="spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <div class="variant">
+              <p class="variant__label">End of results</p>
+              <div class="load-more" id="lm-end">
+                <p class="load-more__count" id="lm-end-count"><span>Showing <strong>38</strong> of 38 books</span></p>
+                <button class="btn btn--lg load-more__btn" id="lm-end-button" type="button" disabled><svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6.5C6.8 5.3 9.5 5.5 12 7v12c-2.5-1.5-5.2-1.7-8-.5z"/><path d="M20 6.5C17.2 5.3 14.5 5.5 12 7v12c2.5-1.5 5.2-1.7 8-.5z"/></svg><span class="btn__label">You’ve reached the end</span></button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="brand" href="index.html">
+          <img class="brand__mark" src="assets/logo-mark-light.svg" alt="" width="32" height="32">
+          <span class="brand__name"><span class="brand__neo">Neo</span> BookFinder</span>
+        </a>
+        <p class="site-footer__desc">A calm place to search the open catalogue by title, author or keyword, and to keep a shelf of books worth reading next.</p>
+      </div>
+      <nav aria-labelledby="footer-explore">
+        <h2 class="site-footer__heading" id="footer-explore">Explore</h2>
+        <ul class="site-footer__links" role="list">
+          <li><a href="index.html#discover">Discover</a></li>
+          <li><a href="index.html#categories">Categories</a></li>
+          <li><a href="index.html#favorites">Favorites</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="footer-resources">
+        <h2 class="site-footer__heading" id="footer-resources">Resources</h2>
+        <ul class="site-footer__links" role="list">
+          <li><a href="https://openlibrary.org/dev/docs/api/search" rel="noopener">Search API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
+          <li><a href="https://openlibrary.org/dev/docs/api/covers" rel="noopener">Covers API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
+          <li><a href="#" data-placeholder="repository-url">Project repository (link to come)</a></li>
+        </ul>
+      </nav>
+      <div class="site-footer__attr">
+        <h2 class="site-footer__heading">Data source</h2>
+        <p>Book records and covers are provided by <a href="https://openlibrary.org/" rel="noopener">Open Library</a>, an open project of the Internet Archive. Availability of covers and descriptions varies by title.</p>
+      </div>
+    </div>
+    <div class="container site-footer__bottom">
+      <p>&copy; 2026 Neo BookFinder. A frontend learning project.</p>
+      <p>Not affiliated with Open Library or the Internet Archive.</p>
+    </div>
+  </footer>
+</body>
+</html>

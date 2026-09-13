@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300"><rect width="200" height="300" fill="#8F2B20"/>
+<path d="M52 262V192C52 150 72 128 100 128S148 150 148 192V262Z" fill="#F4EDE4"/>
+<ellipse cx="100" cy="196" rx="30" ry="40" fill="#5E1A13"/>
+<path d="M52 262H148V300H52Z" fill="#6E1F17"/>
+<text x="100" y="58" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="400" letter-spacing="0" fill="#F4EDE4" font-style="italic">The Handmaid&#8217;s</text>
+<text x="100" y="88" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="400" letter-spacing="0" fill="#F4EDE4">Tale</text>
+<text x="101" y="110" text-anchor="middle" font-family="'Helvetica Neue', Arial, sans-serif" font-size="8" font-weight="600" letter-spacing="2.6" fill="#F0C9B8">MARGARET ATWOOD</text>
+<rect width="7" height="300" fill="#000" opacity=".12"/><rect x="7" width="1.5" height="300" fill="#fff" opacity=".18"/></svg>

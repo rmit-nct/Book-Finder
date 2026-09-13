@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neo BookFinder — Discover your next book</title>
+  <meta name="description" content="Search the Open Library catalogue by title, author or keyword and explore book details, subjects and editions.">
+  <meta name="theme-color" content="#FDFDFD">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&amp;family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&amp;display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <img class="brand__mark" src="assets/logo-mark.svg" alt="" width="32" height="32">
+        <span class="brand__name"><span class="brand__neo">Neo</span> BookFinder</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <ul class="site-nav__list" role="list">
+          <li><a class="site-nav__link" href="index.html#discover" aria-current="page">Discover</a></li>
+          <li><a class="site-nav__link" href="index.html#categories">Categories</a></li>
+          <li><a class="site-nav__link" href="index.html#favorites">Favorites <span class="count-badge" aria-label="2 saved">2</span></a></li>
+        </ul>
+      </nav>
+      <a class="header-link" href="https://openlibrary.org/" rel="noopener">
+        <span class="header-link__short">Open Library</span><span class="header-link__long">Data by Open Library</span>
+        <svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero: intro + SearchBar (left) and featured book (right) -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero__grid">
+        <div class="hero__intro">
+          <p class="eyebrow">Your next read awaits</p>
+          <h1 class="hero__title" id="hero-title">Find a book worth <em>getting lost in</em></h1>
+          <p class="hero__lede">Search the open catalogue by title, author or keyword, then open any book for its subjects, editions and story.</p>
+        <!-- SearchBar · Phase 2: wrap in <form id="search-form"> and make the button type="submit" -->
+        <div class="search" role="search" aria-label="Search books" id="search" data-component="search-bar">
+          <div class="search__top">
+            <label class="search__label" for="search-input">Search the catalogue</label>
+            <fieldset class="segmented">
+              <legend class="segmented__legend">Search by</legend>
+              <div class="segmented__track">
+                <input class="segmented__input" type="radio" id="search-mode-all" name="search-mode" value="all" checked><label class="segmented__option" for="search-mode-all">All</label>
+                <input class="segmented__input" type="radio" id="search-mode-title" name="search-mode" value="title"><label class="segmented__option" for="search-mode-title">Title</label>
+                <input class="segmented__input" type="radio" id="search-mode-author" name="search-mode" value="author"><label class="segmented__option" for="search-mode-author">Author</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="search__field">
+            <div class="search__control">
+              <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+              <input class="search__input" id="search-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="search-help" value="classics">
+            </div>
+            <button class="btn btn--primary search__submit" id="search-button" type="button">Search</button>
+          </div>
+          <p class="search__help" id="search-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
+        </div>
+        </div>
+
+        <article class="featured" aria-labelledby="featured-title">
+          <div class="featured__art" aria-hidden="true"></div>
+          <p class="featured__badge"><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 4h10v16l-5-4-5 4z"/></svg>Featured pick</p>
+          <div class="featured__cover">
+            <img src="assets/covers/dune.svg" alt="Cover of Dune by Frank Herbert" width="200" height="300">
+          </div>
+          <div class="featured__head">
+            <ul class="featured__tags" role="list" aria-label="Genres">
+              <li class="tag">Science fiction</li>
+              <li class="tag">Classic</li>
+            </ul>
+            <h2 class="featured__title" id="featured-title">Dune</h2>
+            <p class="featured__author">Frank Herbert</p>
+            <p class="featured__meta">First published 1965 · 112 editions</p>
+          </div>
+          <p class="featured__desc">A desert planet, a priceless spice and a young heir pulled into prophecy. Herbert’s landmark novel braids ecology, power and belief into one sweeping epic.</p>
+          <div class="featured__actions">
+            <a class="btn btn--dark" href="book-detail.html">View details<span class="visually-hidden">: Dune</span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <button class="icon-btn fav-btn" type="button" aria-pressed="true" aria-label="Save Dune to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Discovery: ResultsGrid (main) + secondary panels (aside). Content below is static sample data. -->
+    <section class="discover section" id="discover" aria-labelledby="results-title">
+      <div class="container discover__layout">
+        <div class="discover__main" id="results">
+          <div class="section-head">
+            <div>
+              <h2 class="section-head__title" id="results-title">Explore books</h2>
+              <p class="section-head__sub">Covers, authors and first publication years. Open any book for editions and subjects.</p>
+            </div>
+          </div>
+        <div class="toolbar" role="group" aria-label="Refine results">
+          <p class="toolbar__count" id="results-count"><strong>12</strong> of 2,316 results for <q>classics</q></p>
+          <div class="toolbar__controls">
+            <div class="select select--subject">
+              <label class="select__label" for="results-subject">Subject</label>
+              <select id="results-subject" name="subject">
+                <option selected>All subjects</option>
+                <option>Fiction</option>
+                <option>Science fiction</option>
+                <option>Fantasy</option>
+                <option>Classics</option>
+                <option>History</option>
+                <option>Self-improvement</option>
+              </select>
+              <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="select select--year">
+              <label class="select__label" for="results-year">Year</label>
+              <select id="results-year" name="year">
+                <option selected>Any year</option>
+                <option>Before 1900</option>
+                <option>1900–1949</option>
+                <option>1950–1999</option>
+                <option>2000 onwards</option>
+              </select>
+              <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="select select--sort">
+              <label class="select__label" for="results-sort">Sort</label>
+              <select id="results-sort" name="sort">
+                <option selected>Relevance</option>
+                <option>Newest first</option>
+                <option>Oldest first</option>
+                <option>Title A–Z</option>
+                <option>Most editions</option>
+              </select>
+              <svg class="select__chevron icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="view-toggle" role="group" aria-label="Result layout">
+            <button class="icon-btn" type="button" aria-pressed="true" aria-label="Grid view"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg></button>
+            <button class="icon-btn" type="button" aria-pressed="false" aria-label="List view"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg></button>
+          </div>
+        </div>
+          <p class="visually-hidden" id="results-status" role="status" aria-live="polite"></p>
+          <ul class="book-grid" id="results-grid" role="list" aria-labelledby="results-title">
+          <li>
+            <article class="book-card" aria-labelledby="book-dune-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/dune.svg" alt="Cover of Dune by Frank Herbert" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Science fiction</p>
+                <h3 class="book-card__title" id="book-dune-title">Dune</h3>
+                <p class="book-card__author">Frank Herbert</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1965</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>112 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Dune</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="true" aria-label="Save Dune to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-1984-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/1984.svg" alt="Cover of 1984 by George Orwell" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Dystopian fiction</p>
+                <h3 class="book-card__title" id="book-1984-title">1984</h3>
+                <p class="book-card__author">George Orwell</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1949</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>342 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: 1984</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save 1984 to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-hobbit-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/the-hobbit.svg" alt="Cover of The Hobbit by J.R.R. Tolkien" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Fantasy</p>
+                <h3 class="book-card__title" id="book-the-hobbit-title">The Hobbit</h3>
+                <p class="book-card__author">J.R.R. Tolkien</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1937</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>268 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Hobbit</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="true" aria-label="Save The Hobbit to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-pride-and-prejudice-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/pride-and-prejudice.svg" alt="Cover of Pride and Prejudice by Jane Austen" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Classic romance</p>
+                <h3 class="book-card__title" id="book-pride-and-prejudice-title">Pride and Prejudice</h3>
+                <p class="book-card__author">Jane Austen</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1813</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>1,204 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Pride and Prejudice</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save Pride and Prejudice to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-great-gatsby-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/the-great-gatsby.svg" alt="Cover of The Great Gatsby by F. Scott Fitzgerald" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Classic fiction</p>
+                <h3 class="book-card__title" id="book-the-great-gatsby-title">The Great Gatsby</h3>
+                <p class="book-card__author">F. Scott Fitzgerald</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1925</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>486 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Great Gatsby</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Great Gatsby to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-handmaids-tale-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/the-handmaids-tale.svg" alt="Cover of The Handmaid’s Tale by Margaret Atwood" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Dystopian fiction</p>
+                <h3 class="book-card__title" id="book-the-handmaids-tale-title">The Handmaid’s Tale</h3>
+                <p class="book-card__author">Margaret Atwood</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1985</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>118 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Handmaid’s Tale</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Handmaid’s Tale to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-atomic-habits-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/atomic-habits.svg" alt="Cover of Atomic Habits by James Clear" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Self-improvement</p>
+                <h3 class="book-card__title" id="book-atomic-habits-title">Atomic Habits</h3>
+                <p class="book-card__author">James Clear</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>2018</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>64 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Atomic Habits</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save Atomic Habits to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-psychology-of-money-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/the-psychology-of-money.svg" alt="Cover of The Psychology of Money by Morgan Housel" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Personal finance</p>
+                <h3 class="book-card__title" id="book-the-psychology-of-money-title">The Psychology of Money</h3>
+                <p class="book-card__author">Morgan Housel</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>2020</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>38 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Psychology of Money</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Psychology of Money to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-left-hand-of-darkness-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/the-left-hand-of-darkness.svg" alt="Cover of The Left Hand of Darkness by Ursula K. Le Guin" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Science fiction</p>
+                <h3 class="book-card__title" id="book-the-left-hand-of-darkness-title">The Left Hand of Darkness</h3>
+                <p class="book-card__author">Ursula K. Le Guin</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1969</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>97 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Left Hand of Darkness</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Left Hand of Darkness to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-beloved-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/beloved.svg" alt="Cover of Beloved by Toni Morrison" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Historical fiction</p>
+                <h3 class="book-card__title" id="book-beloved-title">Beloved</h3>
+                <p class="book-card__author">Toni Morrison</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1987</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>84 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Beloved</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save Beloved to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-sapiens-title">
+              <div class="book-card__cover">
+                <img src="assets/covers/sapiens.svg" alt="Cover of Sapiens by Yuval Noah Harari" width="200" height="300" loading="lazy" decoding="async">
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">World history</p>
+                <h3 class="book-card__title" id="book-sapiens-title">Sapiens</h3>
+                <p class="book-card__author">Yuval Noah Harari</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>2011</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>72 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: Sapiens</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save Sapiens to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          <li>
+            <article class="book-card" aria-labelledby="book-the-master-and-margarita-title">
+              <div class="book-card__cover book-card__cover--missing">
+                <img src="assets/book-placeholder.svg" alt="No cover available for The Master and Margarita" width="200" height="300" loading="lazy" decoding="async">
+                <div class="cover-fallback" aria-hidden="true">
+                  <span class="cover-fallback__title">The Master and Margarita</span>
+                  <span class="cover-fallback__author">Mikhail Bulgakov</span>
+                </div>
+                <span class="cover-fallback__note" aria-hidden="true">No cover</span>
+              </div>
+              <div class="book-card__body">
+                <p class="book-card__subject">Satire</p>
+                <h3 class="book-card__title" id="book-the-master-and-margarita-title">The Master and Margarita</h3>
+                <p class="book-card__author">Mikhail Bulgakov</p>
+                <dl class="book-card__meta">
+                  <div><dt class="visually-hidden">First published</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>1967</dd></div>
+                  <div><dt class="visually-hidden">Editions</dt><dd><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="m3 13 9 5 9-5"/></svg>156 editions</dd></div>
+                </dl>
+                <div class="book-card__actions">
+                  <a class="book-card__link" href="book-detail.html">View details<span class="visually-hidden">: The Master and Margarita</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+                  <button class="icon-btn fav-btn book-card__fav" type="button" aria-pressed="false" aria-label="Save The Master and Margarita to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </li>
+          </ul>
+          <div class="load-more" id="load-more">
+            <p class="load-more__count" id="load-more-count"><span>Showing <strong>12</strong> of 2,316 books</span></p>
+            <button class="btn btn--lg load-more__btn" id="load-more-button" type="button">
+              <span class="btn__label">Load more books</span>
+              <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+              <span class="spinner" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <aside class="discover__aside" aria-label="More ways to discover">
+          <section class="panel panel--blue" id="categories" aria-labelledby="subjects-title">
+            <div class="panel__head">
+              <h2 class="panel__title" id="subjects-title">Trending subjects</h2>
+              <a class="panel__more" href="#discover">All subjects</a>
+            </div>
+            <ul class="subject-list" role="list">
+            <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Science fiction</a></li>
+            <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Fantasy</a></li>
+            <li><a class="subject-link subject-link--brown" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Classics</a></li>
+            <li><a class="subject-link subject-link--ink" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Mystery</a></li>
+            <li><a class="subject-link subject-link--rust" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Romance</a></li>
+            <li><a class="subject-link subject-link--deep" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>History</a></li>
+            <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Poetry</a></li>
+            <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Self-help</a></li>
+            </ul>
+          </section>
+
+          <section class="panel" aria-labelledby="shelf-title">
+            <div class="panel__head">
+              <h2 class="panel__title" id="shelf-title">Editor’s shelf</h2>
+            </div>
+            <p class="panel__sub">Three picks for a slow weekend.</p>
+            <ul class="shelf-list" role="list">
+            <li class="shelf-item">
+              <div class="shelf-item__cover"><img src="assets/covers/the-psychology-of-money.svg" alt="" width="48" height="72" loading="lazy"></div>
+              <div>
+                <h3 class="shelf-item__title"><a href="book-detail.html">The Psychology of Money</a></h3>
+                <p class="shelf-item__author">Morgan Housel</p>
+              </div>
+              <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            </li>
+            <li class="shelf-item">
+              <div class="shelf-item__cover"><img src="assets/covers/the-left-hand-of-darkness.svg" alt="" width="48" height="72" loading="lazy"></div>
+              <div>
+                <h3 class="shelf-item__title"><a href="book-detail.html">The Left Hand of Darkness</a></h3>
+                <p class="shelf-item__author">Ursula K. Le Guin</p>
+              </div>
+              <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            </li>
+            <li class="shelf-item">
+              <div class="shelf-item__cover"><img src="assets/covers/beloved.svg" alt="" width="48" height="72" loading="lazy"></div>
+              <div>
+                <h3 class="shelf-item__title"><a href="book-detail.html">Beloved</a></h3>
+                <p class="shelf-item__author">Toni Morrison</p>
+              </div>
+              <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            </li>
+            </ul>
+          </section>
+
+          <section class="panel panel--warm" id="favorites" aria-labelledby="favorites-title">
+            <div class="panel__head">
+              <h2 class="panel__title" id="favorites-title">Your favorites</h2>
+              <span class="count-badge" aria-label="2 saved">2</span>
+            </div>
+            <ul class="shelf-list" role="list">
+            <li class="shelf-item">
+              <div class="shelf-item__cover"><img src="assets/covers/dune.svg" alt="" width="48" height="72" loading="lazy"></div>
+              <div>
+                <h3 class="shelf-item__title"><a href="book-detail.html">Dune</a></h3>
+                <p class="shelf-item__author">Frank Herbert</p>
+              </div>
+              <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            </li>
+            <li class="shelf-item">
+              <div class="shelf-item__cover"><img src="assets/covers/the-hobbit.svg" alt="" width="48" height="72" loading="lazy"></div>
+              <div>
+                <h3 class="shelf-item__title"><a href="book-detail.html">The Hobbit</a></h3>
+                <p class="shelf-item__author">J.R.R. Tolkien</p>
+              </div>
+              <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
+            </li>
+            </ul>
+            <p class="panel__note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 17h2"/></svg>Saved on this device only</p>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="brand" href="index.html">
+          <img class="brand__mark" src="assets/logo-mark-light.svg" alt="" width="32" height="32">
+          <span class="brand__name"><span class="brand__neo">Neo</span> BookFinder</span>
+        </a>
+        <p class="site-footer__desc">A calm place to search the open catalogue by title, author or keyword, and to keep a shelf of books worth reading next.</p>
+      </div>
+      <nav aria-labelledby="footer-explore">
+        <h2 class="site-footer__heading" id="footer-explore">Explore</h2>
+        <ul class="site-footer__links" role="list">
+          <li><a href="index.html#discover">Discover</a></li>
+          <li><a href="index.html#categories">Categories</a></li>
+          <li><a href="index.html#favorites">Favorites</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="footer-resources">
+        <h2 class="site-footer__heading" id="footer-resources">Resources</h2>
+        <ul class="site-footer__links" role="list">
+          <li><a href="https://openlibrary.org/dev/docs/api/search" rel="noopener">Search API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
+          <li><a href="https://openlibrary.org/dev/docs/api/covers" rel="noopener">Covers API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
+          <li><a href="#" data-placeholder="repository-url">Project repository (link to come)</a></li>
+        </ul>
+      </nav>
+      <div class="site-footer__attr">
+        <h2 class="site-footer__heading">Data source</h2>
+        <p>Book records and covers are provided by <a href="https://openlibrary.org/" rel="noopener">Open Library</a>, an open project of the Internet Archive. Availability of covers and descriptions varies by title.</p>
+      </div>
+    </div>
+    <div class="container site-footer__bottom">
+      <p>&copy; 2026 Neo BookFinder. A frontend learning project.</p>
+      <p>Not affiliated with Open Library or the Internet Archive.</p>
+    </div>
+  </footer>
+</body>
+</html>

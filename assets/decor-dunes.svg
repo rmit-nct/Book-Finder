@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260" preserveAspectRatio="xMaxYMax slice">
+  <circle cx="500" cy="70" r="46" fill="#FBF1DF"/>
+  <path d="M0 150C120 108 230 118 340 148S520 186 600 150V260H0Z" fill="#EEDABB"/>
+  <path d="M0 196C110 168 210 164 320 186S500 222 600 196V260H0Z" fill="#E3C697"/>
+  <path d="M120 260C220 226 360 222 600 238V260Z" fill="#D2A870"/>
+</svg>
