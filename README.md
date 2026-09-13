@@ -7,10 +7,10 @@ book opens a detail view with a longer description, subjects/genres and publish 
 Built with plain **HTML, CSS and vanilla JavaScript**. No framework, no backend, no database and no
 API key: the whole app runs in the browser.
 
-> **Current status — Phase 1 (static UI) is complete.**
-> Every page, component and UI state is built and rendered as static markup.
-> Phase 2 (JavaScript: `fetch()` against Open Library, rendering, favorites) is next — see
-> [Roadmap](#roadmap).
+> **Current status — Phase 2 (working app) is complete.**
+> The UI is driven by live Open Library data: real searches, real covers, real work records,
+> localStorage favorites, filter/sort and Load More pagination all work.
+> What is left is the demo video/GIF and the GitHub Pages deploy — see [Roadmap](#roadmap).
 
 ---
 
@@ -37,7 +37,10 @@ python3 -m http.server 8000
 ```
 
 Then open <http://localhost:8000>. Use this option if your browser blocks local `fetch()` calls on
-`file://` URLs during Phase 2 — a local server avoids that entirely.
+`file://` URLs — a local server avoids that entirely.
+
+> Both options work. Opening the file directly is fine for a quick look, but Chrome blocks
+> `fetch()` from `file://` origins, so searches will fail there. Use Option 2 for the real thing.
 
 Requirements: a modern browser (Chrome, Firefox, Safari or Edge). An internet connection is needed
 for the Google Fonts (Fraunces + DM Sans); offline, the layout falls back to the system font stack
@@ -49,7 +52,7 @@ and stays intact.
 |---|---|
 | `index.html` | **Discover** — hero + SearchBar, featured pick, results toolbar, ResultsGrid of BookCards, sidebar panels (trending subjects, editor's shelf, favorites), Load More |
 | `book-detail.html` | **DetailView** — cover stage, favorite toggle, fact strip, description, subject tags, edition panel |
-| `ui-states.html` | **Every UI state rendered statically** — loading, no results, network error, missing cover, missing description, empty favorites, Load More variants |
+| `ui-states.html` | **State gallery** — every UI state on one page for review: loading, no results, network error, missing cover, missing description, empty favorites, Load More variants. Static markup, kept as a design reference. |
 
 ## Components
 
@@ -62,10 +65,25 @@ The four components named in the brief, and where they live:
 | **BookCard** | `.book-card` | 2:3 cover, subject, title (2-line clamp), author, year + edition count, favorite toggle (`aria-pressed`), "View details" link with a stretched hit area. |
 | **DetailView** | `.detail`, `#detail` | Two columns ≥1024px, one column below. Ready to be placed inside a `<dialog>`. |
 
+## JavaScript modules
+
+Plain `<script>` files, no bundler and no modules — so the pages still work when opened directly.
+Each file attaches to a single `window.NeoBF` namespace.
+
+| File | Responsibility |
+|---|---|
+| `js/api.js` | The only place that talks to the network. `search()` and `fetchDetail()` wrap `fetch()` with an `AbortController` timeout, and every failure is normalised into a friendly `ApiError`. Also owns `coverUrl()` and the placeholder-cover path. |
+| `js/favorites.js` | localStorage read/write (`neobf.favorites.v1`), with an in-memory fallback when storage is blocked. Every write dispatches a `favorites:change` event so the shelf, the badge and the hearts all stay in sync without shared state. |
+| `js/render.js` | Pure template functions — no DOM queries, no fetching. BookCard, DetailView, skeletons and every empty/error state, plus `escapeHtml()` on all interpolated text. |
+| `js/search.js` | Controller for `index.html`. Owns the state machine (`welcome / empty-input / loading / results / no-results / error`), the filter/sort toolbar, Load More and the URL sync. |
+| `js/detail.js` | Controller for `book-detail.html`. Reads `?key=`, loads the work record, rebuilds the breadcrumb and keeps "Back to results" pointing at the search you came from. |
+
+Because the controllers are per-page, `book-detail.html` does not load `search.js` and vice versa.
+
 ## Open Library endpoints
 
-These are the endpoints the UI is designed around. **Phase 1 renders static markup only** — no
-`fetch()` call exists in the repo yet; Phase 2 wires these up.
+These are the endpoints the app calls. All of them are key-less and CORS-enabled
+(`access-control-allow-origin: *`).
 
 **Search**
 
@@ -103,24 +121,24 @@ Documentation: [Search API](https://openlibrary.org/dev/docs/api/search) ·
 ## UI/UX states
 
 Requirement 3 of the brief asks for a loading indicator, a friendly error message and a responsive
-layout. All of them are built and visible side by side in `ui-states.html`:
+layout. All of them are **live** — driven by real request state, not mockups — and `ui-states.html`
+also shows them side by side for review:
 
 1. SearchBar states (default, hover, focus, filled, disabled)
-2. Initial welcome state
-3. Populated results
+2. Initial welcome state — with suggestion chips that run a search
+3. Populated results — real covers, authors and years
 4. Search loading — skeleton cards + status line
-5. No results found
-6. Network error with a Retry action
+5. No results found — with a "Clear search" action
+6. Network error with a working Retry action
 7. Detail loading
 8. Missing-cover card (grid and list)
 9. Missing-description detail
 10. Empty favorites
 11. Load More states (default, hover, focus, loading, disabled, end of results)
 
-Accessibility hooks already in the markup: `#results-status` uses `role="status"` for live
-announcements, the error state uses `role="alert"`, the grid/list toggle and favorite buttons use
-`aria-pressed`, the active nav link uses `aria-current`, and a skip link is the first focusable
-element on every page.
+Accessibility hooks: `#results-status` uses `role="status"` for live announcements, the error state
+uses `role="alert"`, the grid/list toggle and favorite buttons use `aria-pressed`, the active nav
+link uses `aria-current`, and a skip link is the first focusable element on every page.
 
 ## Responsive layout
 
@@ -130,19 +148,35 @@ two-column detail · `1280` 4-column grid.
 
 Tested at **375, 768, 1024 and 1440px** — see [`screenshots/`](screenshots).
 
+The `live-*.png` files are real captures of the running app against the live API (no mockups):
+
+| Capture | Shows |
+|---|---|
+| `live-1440-welcome.png` | Welcome state with suggestion chips |
+| `live-1440-loading.png` | Loading — skeleton cards + status line |
+| `live-1440-results.png` | Populated results with real covers |
+| `live-1440-list-view.png` | List layout |
+| `live-1440-no-results.png` | No-results state |
+| `live-1440-network-error.png` | Network error with Retry |
+| `live-1440-detail.png` | Detail view with live work data |
+| `live-375-results.png` | Mobile, 375px |
+
+The remaining `desktop-*`, `laptop-*`, `tablet-*` and `mobile-*` files are the Phase 1 design
+captures, kept for reference.
+
 ## Stretch features
 
-All three optional stretch features from the brief have their **UI complete** in Phase 1; their
-logic lands in Phase 2.
+All three optional stretch features from the brief are **implemented and working**.
 
 | Stretch feature | Status |
 |---|---|
-| Favorites list (localStorage) | UI complete — favorite toggles on cards and detail, favorites panel, empty state, nav count badge. Persistence to `localStorage` pending. |
-| Filter / sort by year or subject | UI complete — native `<select>` controls for subject, year and sort order. Filtering logic pending. |
-| "Load more" / pagination | UI complete — every state rendered including loading, disabled and end-of-results. Paging logic pending. |
+| Favorites list (localStorage) | **Done** — hearts on cards, the featured pick and the detail page; a favorites shelf in the sidebar; an empty state; and a header count badge. Survives a reload. |
+| Filter / sort by year or subject | **Done** — subject re-queries Open Library; year and sort order are applied to the loaded set without another request. |
+| "Load more" / pagination | **Done** — appends 24 at a time up to 10 pages, de-duplicates by work key, and keeps the results on screen if an extra page fails. |
 
-Extra (not required by the brief): a grid/list layout toggle, a network-error retry state, and a
-`prefers-reduced-motion` fallback that disables all motion.
+Extra (not required by the brief): a grid/list layout toggle, a network-error state with a working
+Retry, a `prefers-reduced-motion` fallback that disables all motion, and a shareable URL — a search
+is restored from `?q=`, so a link to a result set can be sent to someone else.
 
 ## Design system
 
@@ -162,51 +196,60 @@ brand blue only reaches 3.2:1.
 Book-Finder/
 ├── index.html              # Discover page
 ├── book-detail.html        # Detail view
-├── ui-states.html          # Every UI state, rendered statically
+├── ui-states.html          # State gallery (design reference)
 ├── css/
 │   └── styles.css          # Design tokens + all component styles
+├── js/
+│   ├── api.js              # Open Library fetch layer + error normalising
+│   ├── favorites.js        # localStorage favorites + change events
+│   ├── render.js           # Pure templates (cards, detail, states)
+│   ├── search.js           # Discover page controller
+│   └── detail.js           # Detail page controller
 ├── assets/
 │   ├── logo-mark.svg       # Brand mark
 │   ├── logo-mark-light.svg
 │   ├── favicon.svg
 │   ├── decor-dunes.svg     # Featured-panel decoration
 │   ├── book-placeholder.svg
-│   ├── covers/             # 11 sample covers (original SVG placeholders)
+│   ├── covers/             # sample covers for the featured/shelf picks (original SVG)
 │   └── illustrations/      # welcome, no-results, network-error, empty-favorites
 ├── screenshots/            # 375 / 768 / 1024 / 1440 captures + state captures
 ├── DESIGN_SYSTEM.md
 └── README.md
 ```
 
-Phase 2 will add a `js/` folder (`api.js`, `search.js`, `render.js`, `favorites.js`).
-
 ## Known limitations
 
-- **Phase 1 is static.** There is no JavaScript in the repo yet, so typing in the search box,
-  clicking a card, toggling a favorite or pressing Load More does not do anything. Every state is
-  present as markup, waiting to be driven by data.
-- **The books shown are hard-coded sample data** (Dune, 1984, The Hobbit, …) and the covers are
-  original SVG placeholders — not the real Open Library cover images.
-- **Missing data is common in the real API.** Not every book has a cover, a description or a subject
-  list. The UI has a designed answer for each (`book-placeholder.svg` with a typeset title, a
-  "No description available" block, hidden subject sections), but Phase 2 still has to map API
-  `null`s onto those states.
+- **Chrome blocks `fetch()` on `file://`.** Opening `index.html` by double-clicking renders the UI
+  but every search fails. Serve it over HTTP (see [Running it locally](#running-it-locally)).
+- **Filtering and sorting only cover what is loaded.** Year and sort order are applied client-side
+  to the books already fetched — they do not re-query Open Library. This is deliberate: Open
+  Library's `sort=old` and `sort=editions` parameters ignore the `q=` filter and return unrelated
+  books (a `q=dune` request with `sort=editions` comes back with the *Divina Commedia*), and
+  `sort=title` returns control characters. Filtering locally keeps the results honest.
+- **Covers are best-effort.** `covers.openlibrary.org` 302-redirects to archive.org, so a cover can
+  be slow or absent. Books without one fall back to `book-placeholder.svg` with the title typeset
+  over it — never a broken image icon.
+- **Missing data is common in the real API.** Not every work has a cover, a description or a subject
+  list. Each case has a designed answer: the placeholder cover, a "No description available" notice,
+  and subject sections that hide themselves when empty.
 - **Google Fonts require network access.** Offline, the fallback stacks (Iowan Old Style / Palatino /
-  Georgia and system-ui) take over.
+  Georgia and system-ui) take over and the layout stays intact.
+- **Favorites are per-browser.** They live in `localStorage`, so they do not follow the user between
+  devices or browsers, and clearing site data removes them.
 - **Coverage is desktop and mobile only**, verified at four widths (375 / 768 / 1024 / 1440).
-- The favorites count badge in the header shows a static number until Phase 2.
 - Open Library's search index is community-maintained, so result quality and completeness vary
   between books.
 
 ## Roadmap
 
-1. `js/api.js` — search, work and editions fetch helpers with error handling
-2. `js/render.js` — BookCard and DetailView templates + missing-data fallbacks
-3. Wire the SearchBar: form submit, mode selection, URL query param so a search is shareable
-4. Loading / no-results / network-error states driven by real request state
-5. Favorites in `localStorage`, with the nav count badge and favorites panel in sync
-6. Filter and sort by year/subject; Load More pagination
-7. Deploy (GitHub Pages) and record the demo video/GIF
+1. ~~`js/api.js` — search, work and editions fetch helpers with error handling~~ ✅
+2. ~~`js/render.js` — BookCard and DetailView templates + missing-data fallbacks~~ ✅
+3. ~~Wire the SearchBar: form submit, mode selection, URL query param so a search is shareable~~ ✅
+4. ~~Loading / no-results / network-error states driven by real request state~~ ✅
+5. ~~Favorites in `localStorage`, with the nav count badge and favorites panel in sync~~ ✅
+6. ~~Filter and sort by year/subject; Load More pagination~~ ✅
+7. Deploy (GitHub Pages) and record the demo video/GIF — **remaining**
 
 ## Deadlines
 
