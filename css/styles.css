@@ -1648,3 +1648,22 @@ a.tag:focus-visible { outline: none; box-shadow: var(--ring); }
   .book-card:hover,
   .book-card:hover .book-card__cover img { transform: none; }
 }
+
+/* 17. Behaviour hooks (Phase 2) ------------------------------------------------------ */
+
+/* The toolbar, the grid, Load More and the state host are switched with the
+   `hidden` attribute. Several of those elements set their own `display`, which
+   would otherwise win over the attribute's built-in styling. */
+[hidden] { display: none !important; }
+
+/* The favorites shelf sits in a narrow aside, so the shared empty-favorites
+   block is shown in a tighter variant there. */
+.state--compact { padding: var(--space-4) var(--space-2); gap: var(--space-2); }
+.state--compact .state__art { width: 6rem; margin-bottom: 0; }
+.state--compact .state__title { font-size: var(--text-lg); }
+.state--compact .state__text { font-size: var(--text-sm); }
+
+/* Inline "couldn't load more" line, shown under the Load More button without
+   throwing away the results already on screen. */
+.load-more .status-line { margin-bottom: 0; text-align: center; }
+

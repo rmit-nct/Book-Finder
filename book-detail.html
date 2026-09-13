@@ -127,7 +127,7 @@
         <ul class="site-footer__links" role="list">
           <li><a href="https://openlibrary.org/dev/docs/api/search" rel="noopener">Search API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
           <li><a href="https://openlibrary.org/dev/docs/api/covers" rel="noopener">Covers API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
-          <li><a href="#" data-placeholder="repository-url">Project repository (link to come)</a></li>
+          <li><a href="https://github.com/rmit-nct/Book-Finder" rel="noopener">Project repository on GitHub <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
         </ul>
       </nav>
       <div class="site-footer__attr">
@@ -140,5 +140,11 @@
       <p>Not affiliated with Open Library or the Internet Archive.</p>
     </div>
   </footer>
+
+  <!-- Behaviour. Plain scripts in dependency order — no bundler, no modules. -->
+  <script src="js/api.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/detail.js"></script>
 </body>
 </html>

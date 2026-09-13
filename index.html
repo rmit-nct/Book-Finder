@@ -43,8 +43,8 @@
           <p class="eyebrow">Your next read awaits</p>
           <h1 class="hero__title" id="hero-title">Find a book worth <em>getting lost in</em></h1>
           <p class="hero__lede">Search the open catalogue by title, author or keyword, then open any book for its subjects, editions and story.</p>
-        <!-- SearchBar · Phase 2: wrap in <form id="search-form"> and make the button type="submit" -->
-        <div class="search" role="search" aria-label="Search books" id="search" data-component="search-bar">
+        <!-- SearchBar · a real <form> so Enter submits and the button is type="submit" -->
+        <form class="search" role="search" aria-label="Search books" id="search-form" data-component="search-bar">
           <div class="search__top">
             <label class="search__label" for="search-input">Search the catalogue</label>
             <fieldset class="segmented">
@@ -59,12 +59,12 @@
           <div class="search__field">
             <div class="search__control">
               <svg class="search__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              <input class="search__input" id="search-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="search-help" value="classics">
+              <input class="search__input" id="search-input" name="q" type="search" placeholder="Title, author or keyword" autocomplete="off" spellcheck="false" aria-describedby="search-help">
             </div>
-            <button class="btn btn--primary search__submit" id="search-button" type="button">Search</button>
+            <button class="btn btn--primary search__submit" id="search-button" type="submit">Search</button>
           </div>
           <p class="search__help" id="search-help">Try <strong>“Dune”</strong>, <strong>“Toni Morrison”</strong> or <strong>“stoicism”</strong>. Choose “Title” or “Author” to narrow the match.</p>
-        </div>
+        </form>
         </div>
 
         <article class="featured" aria-labelledby="featured-title">
@@ -84,8 +84,8 @@
           </div>
           <p class="featured__desc">A desert planet, a priceless spice and a young heir pulled into prophecy. Herbert’s landmark novel braids ecology, power and belief into one sweeping epic.</p>
           <div class="featured__actions">
-            <a class="btn btn--dark" href="book-detail.html">View details<span class="visually-hidden">: Dune</span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <button class="icon-btn fav-btn" type="button" aria-pressed="true" aria-label="Save Dune to favorites"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
+            <a class="btn btn--dark" href="book-detail.html?key=%2Fworks%2FOL893414W">View details<span class="visually-hidden">: Dune</span><svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <button class="icon-btn fav-btn" type="button" aria-pressed="false" aria-label="Save Dune to favorites" data-fav-key="/works/OL893414W" data-fav-title="Dune"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg></button>
           </div>
         </article>
       </div>
@@ -101,7 +101,7 @@
               <p class="section-head__sub">Covers, authors and first publication years. Open any book for editions and subjects.</p>
             </div>
           </div>
-        <div class="toolbar" role="group" aria-label="Refine results">
+        <div class="toolbar" id="results-toolbar" role="group" aria-label="Refine results">
           <p class="toolbar__count" id="results-count"><strong>12</strong> of 2,316 results for <q>classics</q></p>
           <div class="toolbar__controls">
             <div class="select select--subject">
@@ -146,6 +146,8 @@
           </div>
         </div>
           <p class="visually-hidden" id="results-status" role="status" aria-live="polite"></p>
+          <!-- Welcome / loading / no-results / error blocks are rendered here -->
+          <div id="results-state" hidden></div>
           <ul class="book-grid" id="results-grid" role="list" aria-labelledby="results-title">
           <li>
             <article class="book-card" aria-labelledby="book-dune-title">
@@ -400,6 +402,7 @@
               <svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
               <span class="spinner" aria-hidden="true"></span>
             </button>
+            <div id="load-more-status"></div>
           </div>
         </div>
 
@@ -430,7 +433,7 @@
             <li class="shelf-item">
               <div class="shelf-item__cover"><img src="assets/covers/the-psychology-of-money.svg" alt="" width="48" height="72" loading="lazy"></div>
               <div>
-                <h3 class="shelf-item__title"><a href="book-detail.html">The Psychology of Money</a></h3>
+                <h3 class="shelf-item__title"><a href="book-detail.html?key=%2Fworks%2FOL21640039W">The Psychology of Money</a></h3>
                 <p class="shelf-item__author">Morgan Housel</p>
               </div>
               <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
@@ -438,7 +441,7 @@
             <li class="shelf-item">
               <div class="shelf-item__cover"><img src="assets/covers/the-left-hand-of-darkness.svg" alt="" width="48" height="72" loading="lazy"></div>
               <div>
-                <h3 class="shelf-item__title"><a href="book-detail.html">The Left Hand of Darkness</a></h3>
+                <h3 class="shelf-item__title"><a href="book-detail.html?key=%2Fworks%2FOL59800W">The Left Hand of Darkness</a></h3>
                 <p class="shelf-item__author">Ursula K. Le Guin</p>
               </div>
               <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
@@ -446,7 +449,7 @@
             <li class="shelf-item">
               <div class="shelf-item__cover"><img src="assets/covers/beloved.svg" alt="" width="48" height="72" loading="lazy"></div>
               <div>
-                <h3 class="shelf-item__title"><a href="book-detail.html">Beloved</a></h3>
+                <h3 class="shelf-item__title"><a href="book-detail.html?key=%2Fworks%2FOL50548W">Beloved</a></h3>
                 <p class="shelf-item__author">Toni Morrison</p>
               </div>
               <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
@@ -459,7 +462,7 @@
               <h2 class="panel__title" id="favorites-title">Your favorites</h2>
               <span class="count-badge" aria-label="2 saved">2</span>
             </div>
-            <ul class="shelf-list" role="list">
+            <ul class="shelf-list" id="favorites-list" role="list">
             <li class="shelf-item">
               <div class="shelf-item__cover"><img src="assets/covers/dune.svg" alt="" width="48" height="72" loading="lazy"></div>
               <div>
@@ -477,6 +480,7 @@
               <span class="shelf-item__go" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg></span>
             </li>
             </ul>
+            <div id="favorites-empty" hidden></div>
             <p class="panel__note"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 17h2"/></svg>Saved on this device only</p>
           </section>
         </aside>
@@ -506,7 +510,7 @@
         <ul class="site-footer__links" role="list">
           <li><a href="https://openlibrary.org/dev/docs/api/search" rel="noopener">Search API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
           <li><a href="https://openlibrary.org/dev/docs/api/covers" rel="noopener">Covers API documentation <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
-          <li><a href="#" data-placeholder="repository-url">Project repository (link to come)</a></li>
+          <li><a href="https://github.com/rmit-nct/Book-Finder" rel="noopener">Project repository on GitHub <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a></li>
         </ul>
       </nav>
       <div class="site-footer__attr">
@@ -519,5 +523,12 @@
       <p>Not affiliated with Open Library or the Internet Archive.</p>
     </div>
   </footer>
+
+  <!-- Behaviour. Plain scripts in dependency order — no bundler, no modules,
+       so the page also runs when opened straight from disk. -->
+  <script src="js/api.js"></script>
+  <script src="js/favorites.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/search.js"></script>
 </body>
 </html>
