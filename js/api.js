@@ -144,27 +144,56 @@ window.NeoBF = window.NeoBF || {};
     return names[0] + ' and ' + (names.length - 1) + ' others';
   }
 
-  function pickSubject(subjects) {
-    if (!subjects || !subjects.length) { return 'General'; }
+  /* Open Library subjects are community-maintained and full of entries that are
+     not genres: library and vendor tags ("Protected DAISY", "In library"), New
+     York Times list keys ("nyt:young-adult-paperback-monthly=2023-12-10"),
+     faceted headings ("Fiction, science fiction, general") and long library
+     subject strings. Drop those so the tags read as subjects a reader knows. */
+  var NON_SUBJECT_PATTERNS = /best ?seller|nyt:|daisy|in library|overdrive|large type|accessible book|popular print|reading level|electronic book|internet archive|open library|book club/i;
 
-    /* Keep only labels that read well on a card: short, no parentheticals and
-       no comma-separated facets. */
-    var clean = [];
+  function isUsableSubject(value) {
+    var subject = String(value === null || value === undefined ? '' : value).trim();
+    if (subject.length < 3 || subject.length > 40) { return false; }
+    /* Facets, list keys and dated tags: (), [], comma lists, ":" and "=" keys,
+       and anything carrying a four-digit year. */
+    if (/[()\[\]{}]/.test(subject)) { return false; }
+    if (subject.indexOf(',') !== -1) { return false; }
+    if (subject.indexOf(':') !== -1 || subject.indexOf('=') !== -1) { return false; }
+    if (/\d{4}/.test(subject)) { return false; }
+    if (NON_SUBJECT_PATTERNS.test(subject)) { return false; }
+    return true;
+  }
+
+  /* Clean, de-duplicate (case-insensitively) and put the well-known genres
+     first, so the tag list leads with "Romance" rather than a niche heading. */
+  function cleanSubjects(subjects) {
+    var out = [];
+    if (!Array.isArray(subjects)) { return out; }
+
     for (var i = 0; i < subjects.length; i += 1) {
+      if (!isUsableSubject(subjects[i])) { continue; }
       var subject = String(subjects[i]).trim();
-      if (!subject) { continue; }
-      if (subject.length > 32) { continue; }
-      if (subject.indexOf('(') !== -1 || subject.indexOf(',') !== -1) { continue; }
-      if (clean.indexOf(subject) === -1) { clean.push(subject); }
-    }
-    if (!clean.length) { return 'General'; }
-
-    for (var p = 0; p < PREFERRED_SUBJECTS.length; p += 1) {
-      var wanted = PREFERRED_SUBJECTS[p].toLowerCase();
-      for (var c = 0; c < clean.length; c += 1) {
-        if (clean[c].toLowerCase() === wanted) { return clean[c]; }
+      var duplicate = false;
+      for (var s = 0; s < out.length; s += 1) {
+        if (out[s].toLowerCase() === subject.toLowerCase()) { duplicate = true; break; }
       }
+      if (!duplicate) { out.push(subject); }
     }
+
+    function rank(subject) {
+      var lowered = subject.toLowerCase();
+      for (var p = 0; p < PREFERRED_SUBJECTS.length; p += 1) {
+        if (PREFERRED_SUBJECTS[p].toLowerCase() === lowered) { return p; }
+      }
+      return PREFERRED_SUBJECTS.length;
+    }
+    return out.sort(function (a, b) { return rank(a) - rank(b); });
+  }
+
+  function pickSubject(subjects) {
+    var clean = cleanSubjects(subjects);
+    if (!clean.length) { return 'General'; }
+    /* cleanSubjects already ranks preferred genres first. */
     return clean[0];
   }
 
@@ -410,7 +439,8 @@ window.NeoBF = window.NeoBF || {};
       var editions = editionsResult.editions;
 
       return fetchAuthorNames(work).then(function (names) {
-        var subjects = Array.isArray(work.subjects) ? work.subjects : [];
+        var rawSubjects = Array.isArray(work.subjects) ? work.subjects : [];
+        var subjects = cleanSubjects(rawSubjects);
         var facts = buildEditionFacts(editions);
         var coverId = null;
         if (work.covers && work.covers.length && work.covers[0] > 0) {
@@ -433,9 +463,9 @@ window.NeoBF = window.NeoBF || {};
           title: work.title || 'Untitled',
           authors: authorNames,
           author: authorNames.length ? authorText(authorNames) : 'Unknown author',
-          subject: pickSubject(subjects),
+          subject: pickSubject(rawSubjects),
           subjects: subjects,
-          subjectList: truncateList(subjects, 7),
+          subjectList: truncateList(subjects, 8),
           description: descriptionText(work),
           coverId: coverId,
           cover: coverId ? coverUrl(coverId, 'L') : PLACEHOLDER_COVER,
@@ -460,6 +490,7 @@ window.NeoBF = window.NeoBF || {};
     coverUrl: coverUrl,
     workPageUrl: workPageUrl,
     pickSubject: pickSubject,
+    cleanSubjects: cleanSubjects,
     authorText: authorText,
     languageName: languageName,
     PLACEHOLDER_COVER: PLACEHOLDER_COVER
