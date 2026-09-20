@@ -54,13 +54,16 @@ and stays intact.
 | `book-detail.html` | **DetailView** — cover stage, favorite toggle, fact strip, description, subject tags, edition panel |
 | `ui-states.html` | **State gallery** — every UI state on one page for review: loading, no results, network error, missing cover, missing description, empty favorites, Load More variants. Static markup, kept as a design reference. |
 
+Opening `book-detail.html` with no `?key` shows the featured Dune record, so the detail page can be
+demonstrated on its own. Every link inside the app passes a real work key.
+
 ## Components
 
 The four components named in the brief, and where they live:
 
 | Component | Hook | Notes |
 |---|---|---|
-| **SearchBar** | `#search`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author). States: default, hover, focus, filled, disabled. |
+| **SearchBar** | `#search-form`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author). States: default, hover, focus, filled, disabled. |
 | **ResultsGrid** | `#results-grid.book-grid` | 1 → 2 → 3 → 4 columns. `.book-grid--list` switches to a list layout. |
 | **BookCard** | `.book-card` | 2:3 cover, subject, title (2-line clamp), author, year + edition count, favorite toggle (`aria-pressed`), "View details" link with a stretched hit area. |
 | **DetailView** | `.detail`, `#detail` | Two columns ≥1024px, one column below. Ready to be placed inside a `<dialog>`. |
@@ -233,6 +236,14 @@ Book-Finder/
 - **Missing data is common in the real API.** Not every work has a cover, a description or a subject
   list. Each case has a designed answer: the placeholder cover, a "No description available" notice,
   and subject sections that hide themselves when empty.
+- **A work record can be thinner than its card.** A search result carries a cover and an author that
+  the work record sometimes omits. The detail page falls back to the first edition cover and to the
+  author shown on the card, and if the editions request fails it says so instead of reporting that the
+  work has no editions.
+- **Subjects are community tags.** Open Library mixes genres with list keys, award text and library
+  tags in the same `subjects` array (for example `nyt:young-adult-paperback-monthly=2023-12-10`).
+  The detail page filters those out and shows a New York Times bestseller entry once as a badge,
+  separate from the genre tags.
 - **Google Fonts require network access.** Offline, the fallback stacks (Iowan Old Style / Palatino /
   Georgia and system-ui) take over and the layout stays intact.
 - **Favorites are per-browser.** They live in `localStorage`, so they do not follow the user between

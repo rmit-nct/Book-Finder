@@ -33,7 +33,9 @@ window.NeoBF = window.NeoBF || {};
     'language'
   ].join(',');
 
-  var REQUEST_TIMEOUT_MS = 12000;
+  /* Work records can be slow: works.json has been measured between 8s and 19s
+     on a normal connection, so 12s was aborting healthy requests. */
+  var REQUEST_TIMEOUT_MS = 25000;
   var PLACEHOLDER_COVER = 'assets/book-placeholder.svg';
 
   /* Subjects are shown as the small eyebrow above a card title. Open Library
@@ -142,28 +144,107 @@ window.NeoBF = window.NeoBF || {};
     return names[0] + ' and ' + (names.length - 1) + ' others';
   }
 
-  function pickSubject(subjects) {
-    if (!subjects || !subjects.length) { return 'General'; }
+  /* Open Library subjects are community-maintained and full of entries that are
+     not genres: library and vendor tags ("Protected DAISY", "In library"), New
+     York Times list keys ("nyt:young-adult-paperback-monthly=2023-12-10"),
+     faceted headings ("Fiction, science fiction, general") and long library
+     subject strings. Drop those so the tags read as subjects a reader knows. */
+  var NON_SUBJECT_PATTERNS = /best ?seller|nyt:|daisy|in library|overdrive|large type|accessible book|popular print|reading level|electronic book|internet archive|open library|book club/i;
 
-    /* Keep only labels that read well on a card: short, no parentheticals and
-       no comma-separated facets. */
-    var clean = [];
+  function isUsableSubject(value) {
+    var subject = String(value === null || value === undefined ? '' : value).trim();
+    if (subject.length < 3 || subject.length > 40) { return false; }
+    /* Facets, list keys and dated tags: (), [], comma lists, ":" and "=" keys,
+       and anything carrying a four-digit year. */
+    if (/[()\[\]{}]/.test(subject)) { return false; }
+    if (subject.indexOf(',') !== -1) { return false; }
+    if (subject.indexOf(':') !== -1 || subject.indexOf('=') !== -1) { return false; }
+    if (/\d{4}/.test(subject)) { return false; }
+    if (NON_SUBJECT_PATTERNS.test(subject)) { return false; }
+    return true;
+  }
+
+  /* Clean, de-duplicate (case-insensitively) and put the well-known genres
+     first, so the tag list leads with "Romance" rather than a niche heading. */
+  function cleanSubjects(subjects) {
+    var out = [];
+    if (!Array.isArray(subjects)) { return out; }
+
     for (var i = 0; i < subjects.length; i += 1) {
+      if (!isUsableSubject(subjects[i])) { continue; }
       var subject = String(subjects[i]).trim();
-      if (!subject) { continue; }
-      if (subject.length > 32) { continue; }
-      if (subject.indexOf('(') !== -1 || subject.indexOf(',') !== -1) { continue; }
-      if (clean.indexOf(subject) === -1) { clean.push(subject); }
+      var duplicate = false;
+      for (var s = 0; s < out.length; s += 1) {
+        if (out[s].toLowerCase() === subject.toLowerCase()) { duplicate = true; break; }
+      }
+      if (!duplicate) { out.push(subject); }
     }
-    if (!clean.length) { return 'General'; }
 
-    for (var p = 0; p < PREFERRED_SUBJECTS.length; p += 1) {
-      var wanted = PREFERRED_SUBJECTS[p].toLowerCase();
-      for (var c = 0; c < clean.length; c += 1) {
-        if (clean[c].toLowerCase() === wanted) { return clean[c]; }
+    function rank(subject) {
+      var lowered = subject.toLowerCase();
+      for (var p = 0; p < PREFERRED_SUBJECTS.length; p += 1) {
+        if (PREFERRED_SUBJECTS[p].toLowerCase() === lowered) { return p; }
+      }
+      return PREFERRED_SUBJECTS.length;
+    }
+    return out.sort(function (a, b) { return rank(a) - rank(b); });
+  }
+
+  function pickSubject(subjects) {
+    var clean = cleanSubjects(subjects);
+    if (!clean.length) { return 'General'; }
+    /* cleanSubjects already ranks preferred genres first. */
+    return clean[0];
+  }
+
+  /* Open Library files New York Times bestseller-list tags in `subjects`, both
+     as `nyt:<list>=<week>` and as a plain "New York Times bestseller" label.
+     Those are not genres, so cleanSubjects() drops them from the tag list and
+     this surfaces the fact once, as a single badge. */
+  var NYT_TAG_PATTERN = /^nyt:([a-z0-9-]+)=(\d{4}-\d{2}-\d{2})$/i;
+  var MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  function humaniseListSlug(slug) {
+    return String(slug).split('-').map(function (word) {
+      return word ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+    }).join(' ');
+  }
+
+  function readableWeek(value) {
+    var parts = String(value).split('-');
+    var month = parseInt(parts[1], 10);
+    if (!month || month < 1 || month > 12 || !parts[0]) { return value; }
+    return MONTH_NAMES[month - 1] + ' ' + parts[0];
+  }
+
+  function bestsellerFromSubjects(subjects) {
+    if (!Array.isArray(subjects)) { return null; }
+
+    var i;
+    for (i = 0; i < subjects.length; i += 1) {
+      var tag = String(subjects[i] || '').trim().match(NYT_TAG_PATTERN);
+      if (tag) {
+        return {
+          label: 'New York Times bestseller',
+          note: humaniseListSlug(tag[1]) + ', ' + readableWeek(tag[2])
+        };
       }
     }
-    return clean[0];
+    for (i = 0; i < subjects.length; i += 1) {
+      var text = String(subjects[i] || '').trim();
+      if (/new york times/i.test(text) && /best ?sell/i.test(text)) {
+        return { label: 'New York Times bestseller', note: '' };
+      }
+    }
+    for (i = 0; i < subjects.length; i += 1) {
+      if (/best ?sell/i.test(String(subjects[i] || ''))) {
+        return { label: 'Bestseller', note: '' };
+      }
+    }
+    return null;
   }
 
   function languageName(code) {
@@ -370,35 +451,79 @@ window.NeoBF = window.NeoBF || {};
     };
   }
 
+  /* A work record often has no cover of its own, but its editions usually do.
+     Grab the first positive cover id so a book that showed a cover in the
+     results does not lose it on the detail page. */
+  function firstEditionCoverId(editions) {
+    for (var i = 0; i < editions.length; i += 1) {
+      var covers = editions[i].covers;
+      if (Array.isArray(covers)) {
+        for (var c = 0; c < covers.length; c += 1) {
+          if (covers[c] > 0) { return covers[c]; }
+        }
+      }
+    }
+    return null;
+  }
+
   /* One call for the whole detail page: work record, edition list, author
-     names and the derived facts strip. */
-  function fetchDetail(workKey) {
+     names and the derived facts strip.
+
+     `options.coverId` and `options.author` come from the search card that
+     linked here, used only as fallbacks when the work record lacks them. */
+  function fetchDetail(workKey, options) {
+    var settings = options || {};
+
     return Promise.all([
       fetchWork(workKey),
-      fetchEditions(workKey, 60).catch(function () { return []; })
+      fetchEditions(workKey, 60).then(function (editions) {
+        return { editions: editions, failed: false };
+      }).catch(function () {
+        /* Remember the failure so the page can say "couldn't load" instead of
+           wrongly claiming the work has no editions. */
+        return { editions: [], failed: true };
+      })
     ]).then(function (results) {
       var work = results[0];
-      var editions = results[1];
+      var editionsResult = results[1];
+      var editions = editionsResult.editions;
 
       return fetchAuthorNames(work).then(function (names) {
-        var subjects = Array.isArray(work.subjects) ? work.subjects : [];
+        var rawSubjects = Array.isArray(work.subjects) ? work.subjects : [];
+        var subjects = cleanSubjects(rawSubjects);
         var facts = buildEditionFacts(editions);
-        var coverId = (work.covers && work.covers.length) ? work.covers[0] : null;
+        var coverId = null;
+        if (work.covers && work.covers.length && work.covers[0] > 0) {
+          coverId = work.covers[0];
+        } else {
+          coverId = firstEditionCoverId(editions);
+        }
+        if (!coverId && settings.coverId) { coverId = settings.coverId; }
+
+        /* Fall back to the author shown on the card when the author lookup
+           comes back empty, so the page never says "Unknown author" for a
+           book the results list already attributed. */
+        var authorNames = names;
+        if (!authorNames.length && settings.author) {
+          authorNames = [settings.author];
+        }
 
         return {
           key: workKey,
           title: work.title || 'Untitled',
-          authors: names,
-          author: names.length ? authorText(names) : 'Unknown author',
-          subject: pickSubject(subjects),
+          authors: authorNames,
+          author: authorNames.length ? authorText(authorNames) : 'Unknown author',
+          subject: pickSubject(rawSubjects),
           subjects: subjects,
-          subjectList: truncateList(subjects, 7),
+          subjectList: truncateList(subjects, 8),
+          bestseller: bestsellerFromSubjects(rawSubjects),
           description: descriptionText(work),
           coverId: coverId,
           cover: coverId ? coverUrl(coverId, 'L') : PLACEHOLDER_COVER,
           coverSmall: coverId ? coverUrl(coverId, 'M') : PLACEHOLDER_COVER,
           firstPublishDate: work.first_publish_date || '',
           facts: facts,
+          editionsFailed: editionsResult.failed,
           openLibraryUrl: workPageUrl(workKey)
         };
       });
@@ -416,6 +541,8 @@ window.NeoBF = window.NeoBF || {};
     coverUrl: coverUrl,
     workPageUrl: workPageUrl,
     pickSubject: pickSubject,
+    cleanSubjects: cleanSubjects,
+    bestsellerFromSubjects: bestsellerFromSubjects,
     authorText: authorText,
     languageName: languageName,
     PLACEHOLDER_COVER: PLACEHOLDER_COVER

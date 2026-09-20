@@ -41,6 +41,7 @@ window.NeoBF = window.NeoBF || {};
     phase: 'welcome',      /* welcome | empty-input | loading | results | no-results | error */
     lastError: null,
     lastRequest: null,
+    requestId: 0,
     layout: 'grid'
   };
 
@@ -300,6 +301,12 @@ window.NeoBF = window.NeoBF || {};
     var query = typeof options.query === 'string' ? options.query : els.input.value;
     query = (query || '').replace(/\s+/g, ' ').trim();
 
+    /* One token per search: any response whose token is stale is ignored, so a
+       slower earlier request can never overwrite a newer one. This also covers
+       switching mode or subject while the query text stays the same. */
+    state.requestId += 1;
+    var requestId = state.requestId;
+
     if (!query) {
       state.query = '';
       state.books = [];
@@ -332,7 +339,7 @@ window.NeoBF = window.NeoBF || {};
     announce();
 
     NS.api.search(state.lastRequest).then(function (result) {
-      if (state.query !== result.query) { return; }   /* a newer search already won */
+      if (requestId !== state.requestId) { return; }   /* a newer search already won */
 
       state.books = result.books;
       state.total = result.total;
@@ -342,7 +349,7 @@ window.NeoBF = window.NeoBF || {};
       announce();
       updateUrl();
     }).catch(function (error) {
-      if (state.query !== query) { return; }
+      if (requestId !== state.requestId) { return; }
       state.lastError = error;
       state.phase = 'error';
       render();
@@ -357,6 +364,8 @@ window.NeoBF = window.NeoBF || {};
 
     setLoadMoreLoading();
 
+    var requestId = state.requestId;
+
     NS.api.search({
       query: state.query,
       mode: state.mode,
@@ -364,7 +373,7 @@ window.NeoBF = window.NeoBF || {};
       page: state.page + 1,
       limit: PAGE_SIZE
     }).then(function (result) {
-      if (state.query !== result.query) { return; }
+      if (requestId !== state.requestId) { return; }
 
       var seen = {};
       state.books.forEach(function (book) { seen[book.key] = true; });
@@ -430,7 +439,14 @@ window.NeoBF = window.NeoBF || {};
     var subject = params.get('subject') || '';
 
     if (mode !== 'all') { setModeRadio(mode); }
-    if (subject) { selectByText(els.subject, subject); }
+    if (subject && !selectByText(els.subject, subject)) {
+      /* A subject from a shared link is not in the fixed option list, so add it
+         and select it, keeping the control in step with the applied filter. */
+      var option = document.createElement('option');
+      option.textContent = subject;
+      els.subject.appendChild(option);
+      els.subject.selectedIndex = els.subject.options.length - 1;
+    }
 
     if (query) {
       els.input.value = query;
@@ -544,6 +560,20 @@ window.NeoBF = window.NeoBF || {};
         els.subject.selectedIndex = 0;
         performSearch({ query: term, mode: 'all', subject: '' });
         scrollToResults();
+      });
+    }
+
+    /* "All subjects" +/- toggle in the Trending subjects panel. */
+    var toggleSubjectsBtn = document.querySelector('[data-action="toggle-subjects"]');
+    if (toggleSubjectsBtn) {
+      var extraList = byId('subject-list-extra');
+      toggleSubjectsBtn.addEventListener('click', function () {
+        var expanded = toggleSubjectsBtn.getAttribute('aria-expanded') === 'true';
+        toggleSubjectsBtn.setAttribute('aria-expanded', String(!expanded));
+        if (extraList) {
+          extraList.hidden = expanded;
+        }
+        toggleSubjectsBtn.setAttribute('aria-label', expanded ? 'Show more subjects' : 'Show fewer subjects');
       });
     }
 

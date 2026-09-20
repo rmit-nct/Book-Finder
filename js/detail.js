@@ -17,8 +17,8 @@ window.NeoBF = window.NeoBF || {};
      key, so this only affects a bare URL. */
   var DEFAULT_WORK_KEY = '/works/OL893414W';
 
-  var els = { detail: null, backLink: null, breadcrumb: null };
-  var context = { query: '', mode: 'all', subject: '' };
+  var els = { detail: null, backLink: null, breadcrumb: null, status: null };
+  var context = { query: '', mode: 'all', subject: '', coverId: '', author: '' };
   var currentKey = '';
   var currentDetail = null;
 
@@ -36,6 +36,9 @@ window.NeoBF = window.NeoBF || {};
     context.query = (params.get('q') || '').trim();
     context.mode = params.get('mode') || 'all';
     context.subject = params.get('subject') || '';
+    /* Carried from the search card, used as fallbacks on the detail page. */
+    context.coverId = (params.get('cover') || '').trim();
+    context.author = (params.get('author') || '').trim();
 
     return key;
   }
@@ -55,9 +58,17 @@ window.NeoBF = window.NeoBF || {};
      Rendering
      --------------------------------------------------------------------- */
 
+  /* Keep the polite live region in the loop so a loaded record is announced
+     instead of appearing silently for screen-reader users. */
+  function announce(message) {
+    if (els.status) { els.status.textContent = message; }
+  }
+
   function showLoading() {
     els.detail.className = 'detail detail--loading';
     els.detail.setAttribute('aria-busy', 'true');
+    /* The skeleton has no #detail-title, so drop the dangling reference. */
+    els.detail.removeAttribute('aria-labelledby');
     els.detail.innerHTML = NS.render.detailSkeleton();
   }
 
@@ -87,10 +98,13 @@ window.NeoBF = window.NeoBF || {};
     els.detail.innerHTML = NS.render.detailView(detail, {
       isFavorite: NS.favorites.has(detail.key)
     });
+    /* The title now exists, so point the region at it for a proper name. */
+    els.detail.setAttribute('aria-labelledby', 'detail-title');
 
     updateHead(detail);
     updateBreadcrumb(detail);
     NS.favorites.syncButtons();
+    announce('Details loaded for ' + detail.title + '.');
   }
 
   function renderError(error) {
@@ -99,10 +113,14 @@ window.NeoBF = window.NeoBF || {};
     els.detail.className = '';
     els.detail.removeAttribute('aria-busy');
     els.detail.removeAttribute('aria-labelledby');
+    /* A 404 means the key is wrong, not that the network failed, so say so. */
+    var notFound = !!error && error.status === 404;
     els.detail.innerHTML = NS.render.errorState({
-      label: 'Connection problem',
-      title: 'We couldn’t load this book',
-      text: 'The record didn’t come back from Open Library. Check your connection and try again — the book key stays in the address bar.',
+      label: notFound ? 'Book not found' : 'Connection problem',
+      title: notFound ? 'We couldn’t find that book' : 'We couldn’t load this book',
+      text: notFound
+        ? 'Open Library has no work with that key. The link may be incomplete or the record may have been removed. Try searching for the title instead.'
+        : 'The record didn’t come back from Open Library. Check your connection and try again. The book key stays in the address bar.',
       detail: (error && error.detail) || 'network error'
     });
   }
@@ -115,7 +133,10 @@ window.NeoBF = window.NeoBF || {};
     currentKey = key;
     showLoading();
 
-    NS.api.fetchDetail(key).then(function (detail) {
+    NS.api.fetchDetail(key, {
+      coverId: context.coverId,
+      author: context.author
+    }).then(function (detail) {
       if (currentKey !== key) { return; }   /* a newer request already won */
       renderDetail(detail);
     }).catch(function (error) {
@@ -183,6 +204,7 @@ window.NeoBF = window.NeoBF || {};
 
     els.backLink = document.querySelector('.detail-topbar .back-link');
     els.breadcrumb = document.querySelector('ol.breadcrumb');
+    els.status = document.getElementById('detail-status');
 
     /* readParams() fills `context`, so it must run before backHref() — otherwise
        the back link is built while the query is still empty and loses ?q=. */
