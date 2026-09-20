@@ -370,26 +370,67 @@ window.NeoBF = window.NeoBF || {};
     };
   }
 
+  /* A work record often has no cover of its own, but its editions usually do.
+     Grab the first positive cover id so a book that showed a cover in the
+     results does not lose it on the detail page. */
+  function firstEditionCoverId(editions) {
+    for (var i = 0; i < editions.length; i += 1) {
+      var covers = editions[i].covers;
+      if (Array.isArray(covers)) {
+        for (var c = 0; c < covers.length; c += 1) {
+          if (covers[c] > 0) { return covers[c]; }
+        }
+      }
+    }
+    return null;
+  }
+
   /* One call for the whole detail page: work record, edition list, author
-     names and the derived facts strip. */
-  function fetchDetail(workKey) {
+     names and the derived facts strip.
+
+     `options.coverId` and `options.author` come from the search card that
+     linked here, used only as fallbacks when the work record lacks them. */
+  function fetchDetail(workKey, options) {
+    var settings = options || {};
+
     return Promise.all([
       fetchWork(workKey),
-      fetchEditions(workKey, 60).catch(function () { return []; })
+      fetchEditions(workKey, 60).then(function (editions) {
+        return { editions: editions, failed: false };
+      }).catch(function () {
+        /* Remember the failure so the page can say "couldn't load" instead of
+           wrongly claiming the work has no editions. */
+        return { editions: [], failed: true };
+      })
     ]).then(function (results) {
       var work = results[0];
-      var editions = results[1];
+      var editionsResult = results[1];
+      var editions = editionsResult.editions;
 
       return fetchAuthorNames(work).then(function (names) {
         var subjects = Array.isArray(work.subjects) ? work.subjects : [];
         var facts = buildEditionFacts(editions);
-        var coverId = (work.covers && work.covers.length) ? work.covers[0] : null;
+        var coverId = null;
+        if (work.covers && work.covers.length && work.covers[0] > 0) {
+          coverId = work.covers[0];
+        } else {
+          coverId = firstEditionCoverId(editions);
+        }
+        if (!coverId && settings.coverId) { coverId = settings.coverId; }
+
+        /* Fall back to the author shown on the card when the author lookup
+           comes back empty, so the page never says "Unknown author" for a
+           book the results list already attributed. */
+        var authorNames = names;
+        if (!authorNames.length && settings.author) {
+          authorNames = [settings.author];
+        }
 
         return {
           key: workKey,
           title: work.title || 'Untitled',
-          authors: names,
-          author: names.length ? authorText(names) : 'Unknown author',
+          authors: authorNames,
+          author: authorNames.length ? authorText(authorNames) : 'Unknown author',
           subject: pickSubject(subjects),
           subjects: subjects,
           subjectList: truncateList(subjects, 7),
@@ -399,6 +440,7 @@ window.NeoBF = window.NeoBF || {};
           coverSmall: coverId ? coverUrl(coverId, 'M') : PLACEHOLDER_COVER,
           firstPublishDate: work.first_publish_date || '',
           facts: facts,
+          editionsFailed: editionsResult.failed,
           openLibraryUrl: workPageUrl(workKey)
         };
       });

@@ -50,12 +50,17 @@ window.NeoBF = window.NeoBF || {};
      Discover page. */
   function detailHref(bookKey, context) {
     var params = new URLSearchParams();
+    var settings = context || {};
     params.set('key', bookKey);
-    if (context && context.query) {
-      params.set('q', context.query);
-      if (context.mode && context.mode !== 'all') { params.set('mode', context.mode); }
-      if (context.subject) { params.set('subject', context.subject); }
+    if (settings.query) {
+      params.set('q', settings.query);
+      if (settings.mode && settings.mode !== 'all') { params.set('mode', settings.mode); }
+      if (settings.subject) { params.set('subject', settings.subject); }
     }
+    /* Carry the cover and author the card already knows, so the detail page can
+       fall back to them when the work record is missing either. */
+    if (settings.coverId) { params.set('cover', String(settings.coverId)); }
+    if (settings.author) { params.set('author', settings.author); }
     return 'book-detail.html?' + params.toString();
   }
 
@@ -141,6 +146,14 @@ window.NeoBF = window.NeoBF || {};
     var settings = options || {};
     var isFavorite = !!settings.isFavorite;
     var id = 'book-' + slug(book.key);
+    var context = settings.context || {};
+    var href = detailHref(book.key, {
+      query: context.query,
+      mode: context.mode,
+      subject: context.subject,
+      coverId: book.coverId,
+      author: book.author
+    });
 
     return '<li>' +
       '<article class="book-card" aria-labelledby="' + id + '">' +
@@ -151,7 +164,7 @@ window.NeoBF = window.NeoBF || {};
       '<p class="book-card__author">' + escapeHtml(book.author) + '</p>' +
       metaMarkup(book) +
       '<div class="book-card__actions">' +
-      '<a class="book-card__link" href="' + escapeHtml(detailHref(book.key, settings.context)) + '">View details' +
+      '<a class="book-card__link" href="' + escapeHtml(href) + '">View details' +
       '<span class="visually-hidden">: ' + escapeHtml(book.title) + '</span>' + icon.arrowRight + '</a>' +
       favoriteButton(book, isFavorite, 'book-card__fav') +
       '</div>' +
@@ -286,7 +299,10 @@ window.NeoBF = window.NeoBF || {};
       '<div class="shelf-item__cover"><img src="' + escapeHtml(book.cover) + '" alt="" ' +
       'width="48" height="72" loading="lazy"></div>' +
       '<div>' +
-      '<h3 class="shelf-item__title"><a href="' + escapeHtml(detailHref(book.key)) + '">' +
+      '<h3 class="shelf-item__title"><a href="' + escapeHtml(detailHref(book.key, {
+        coverId: book.coverId,
+        author: book.author
+      })) + '">' +
       escapeHtml(book.title) + '</a></h3>' +
       '<p class="shelf-item__author">' + escapeHtml(book.author) + '</p>' +
       '</div>' +
@@ -393,6 +409,14 @@ window.NeoBF = window.NeoBF || {};
     var facts = detail.facts || {};
 
     if (!facts.count) {
+      /* Distinguish a failed editions request from a work that genuinely has
+         no editions, so the message does not blame the catalogue. */
+      if (detail.editionsFailed) {
+        return '<div class="notice" role="note">' + icon.noticeLines +
+          '<p class="notice__title">Edition details didn’t load</p>' +
+          '<p>Open Library did not return the edition list for this work. Go back and open the book again, or retry in a moment.</p>' +
+          '</div>';
+      }
       return '<div class="notice" role="note">' + icon.noticeLines +
         '<p class="notice__title">No edition details available yet</p>' +
         '<p>Open Library lists this work but has no edition records for it, so publisher, language and page details cannot be shown.</p>' +

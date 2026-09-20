@@ -54,6 +54,9 @@ and stays intact.
 | `book-detail.html` | **DetailView** — cover stage, favorite toggle, fact strip, description, subject tags, edition panel |
 | `ui-states.html` | **State gallery** — every UI state on one page for review: loading, no results, network error, missing cover, missing description, empty favorites, Load More variants. Static markup, kept as a design reference. |
 
+Opening `book-detail.html` with no `?key` shows the featured Dune record, so the detail page can be
+demonstrated on its own. Every link inside the app passes a real work key.
+
 ## Components
 
 The four components named in the brief, and where they live:
@@ -233,6 +236,10 @@ Book-Finder/
 - **Missing data is common in the real API.** Not every work has a cover, a description or a subject
   list. Each case has a designed answer: the placeholder cover, a "No description available" notice,
   and subject sections that hide themselves when empty.
+- **A work record can be thinner than its card.** A search result carries a cover and an author that
+  the work record sometimes omits. The detail page falls back to the first edition cover and to the
+  author shown on the card, and if the editions request fails it says so instead of reporting that the
+  work has no editions.
 - **Google Fonts require network access.** Offline, the fallback stacks (Iowan Old Style / Palatino /
   Georgia and system-ui) take over and the layout stays intact.
 - **Favorites are per-browser.** They live in `localStorage`, so they do not follow the user between

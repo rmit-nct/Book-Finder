@@ -18,7 +18,7 @@ window.NeoBF = window.NeoBF || {};
   var DEFAULT_WORK_KEY = '/works/OL893414W';
 
   var els = { detail: null, backLink: null, breadcrumb: null, status: null };
-  var context = { query: '', mode: 'all', subject: '' };
+  var context = { query: '', mode: 'all', subject: '', coverId: '', author: '' };
   var currentKey = '';
   var currentDetail = null;
 
@@ -36,6 +36,9 @@ window.NeoBF = window.NeoBF || {};
     context.query = (params.get('q') || '').trim();
     context.mode = params.get('mode') || 'all';
     context.subject = params.get('subject') || '';
+    /* Carried from the search card, used as fallbacks on the detail page. */
+    context.coverId = (params.get('cover') || '').trim();
+    context.author = (params.get('author') || '').trim();
 
     return key;
   }
@@ -126,7 +129,10 @@ window.NeoBF = window.NeoBF || {};
     currentKey = key;
     showLoading();
 
-    NS.api.fetchDetail(key).then(function (detail) {
+    NS.api.fetchDetail(key, {
+      coverId: context.coverId,
+      author: context.author
+    }).then(function (detail) {
       if (currentKey !== key) { return; }   /* a newer request already won */
       renderDetail(detail);
     }).catch(function (error) {
