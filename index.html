@@ -165,17 +165,29 @@
           <section class="panel panel--blue" id="categories" aria-labelledby="subjects-title">
             <div class="panel__head">
               <h2 class="panel__title" id="subjects-title">Trending subjects</h2>
-              <a class="panel__more" href="#discover">All subjects</a>
+              <button class="panel__toggle" type="button" data-action="toggle-subjects" aria-expanded="false" aria-controls="subject-list-extra" aria-label="Show more subjects">
+                <svg class="icon icon--sm panel__toggle-icon panel__toggle-icon--plus" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <svg class="icon icon--sm panel__toggle-icon panel__toggle-icon--minus" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </button>
             </div>
-            <ul class="subject-list" role="list">
-            <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Science fiction</a></li>
-            <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Fantasy</a></li>
-            <li><a class="subject-link subject-link--brown" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Classics</a></li>
-            <li><a class="subject-link subject-link--ink" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Mystery</a></li>
-            <li><a class="subject-link subject-link--rust" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Romance</a></li>
-            <li><a class="subject-link subject-link--deep" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>History</a></li>
-            <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Poetry</a></li>
-            <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Self-help</a></li>
+            <ul class="subject-list" role="list" id="subject-list-top">
+              <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Science fiction</a></li>
+              <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Fantasy</a></li>
+              <li><a class="subject-link subject-link--brown" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Classics</a></li>
+              <li><a class="subject-link subject-link--ink" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Mystery</a></li>
+              <li><a class="subject-link subject-link--rust" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Romance</a></li>
+              <li><a class="subject-link subject-link--deep" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>History</a></li>
+              <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Poetry</a></li>
+              <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Self-help</a></li>
+            </ul>
+            <ul class="subject-list subject-list--extra" id="subject-list-extra" role="list" hidden>
+              <li><a class="subject-link subject-link--rust" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Literary fiction</a></li>
+              <li><a class="subject-link subject-link--ink" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Thriller</a></li>
+              <li><a class="subject-link subject-link--brown" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Horror</a></li>
+              <li><a class="subject-link subject-link--gold" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Adventure</a></li>
+              <li><a class="subject-link subject-link--deep" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Biography</a></li>
+              <li><a class="subject-link" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Philosophy</a></li>
+              <li><a class="subject-link subject-link--rust" href="#discover"><span class="subject-link__spine" aria-hidden="true"></span>Psychology</a></li>
             </ul>
           </section>
 

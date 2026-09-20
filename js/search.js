@@ -563,6 +563,20 @@ window.NeoBF = window.NeoBF || {};
       });
     }
 
+    /* "All subjects" +/- toggle in the Trending subjects panel. */
+    var toggleSubjectsBtn = document.querySelector('[data-action="toggle-subjects"]');
+    if (toggleSubjectsBtn) {
+      var extraList = byId('subject-list-extra');
+      toggleSubjectsBtn.addEventListener('click', function () {
+        var expanded = toggleSubjectsBtn.getAttribute('aria-expanded') === 'true';
+        toggleSubjectsBtn.setAttribute('aria-expanded', String(!expanded));
+        if (extraList) {
+          extraList.hidden = expanded;
+        }
+        toggleSubjectsBtn.setAttribute('aria-label', expanded ? 'Show more subjects' : 'Show fewer subjects');
+      });
+    }
+
     /* One delegated handler covers the featured card, every BookCard and the
        detail page toggle. */
     document.addEventListener('click', function (event) {
