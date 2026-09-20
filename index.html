@@ -22,10 +22,11 @@
         <span class="brand__name"><span class="brand__neo">Neo</span> BookFinder</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
+        <!-- In-page links (no index.html prefix) so a search in the URL survives the jump -->
         <ul class="site-nav__list" role="list">
-          <li><a class="site-nav__link" href="index.html#discover" aria-current="page">Discover</a></li>
-          <li><a class="site-nav__link" href="index.html#categories">Categories</a></li>
-          <li><a class="site-nav__link" href="index.html#favorites">Favorites <span class="count-badge" aria-label="2 saved">2</span></a></li>
+          <li><a class="site-nav__link" href="#discover" aria-current="page">Discover</a></li>
+          <li><a class="site-nav__link" href="#categories">Categories</a></li>
+          <li><a class="site-nav__link" href="#favorites">Favorites <span class="count-badge" aria-label="0 saved" hidden>0</span></a></li>
         </ul>
       </nav>
       <a class="header-link" href="https://openlibrary.org/" rel="noopener">
@@ -500,9 +501,9 @@
       <nav aria-labelledby="footer-explore">
         <h2 class="site-footer__heading" id="footer-explore">Explore</h2>
         <ul class="site-footer__links" role="list">
-          <li><a href="index.html#discover">Discover</a></li>
-          <li><a href="index.html#categories">Categories</a></li>
-          <li><a href="index.html#favorites">Favorites</a></li>
+          <li><a href="#discover">Discover</a></li>
+          <li><a href="#categories">Categories</a></li>
+          <li><a href="#favorites">Favorites</a></li>
         </ul>
       </nav>
       <nav aria-labelledby="footer-resources">
