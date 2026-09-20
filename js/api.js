@@ -33,7 +33,9 @@ window.NeoBF = window.NeoBF || {};
     'language'
   ].join(',');
 
-  var REQUEST_TIMEOUT_MS = 12000;
+  /* Work records can be slow: works.json has been measured between 8s and 19s
+     on a normal connection, so 12s was aborting healthy requests. */
+  var REQUEST_TIMEOUT_MS = 25000;
   var PLACEHOLDER_COVER = 'assets/book-placeholder.svg';
 
   /* Subjects are shown as the small eyebrow above a card title. Open Library

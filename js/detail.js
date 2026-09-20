@@ -113,10 +113,14 @@ window.NeoBF = window.NeoBF || {};
     els.detail.className = '';
     els.detail.removeAttribute('aria-busy');
     els.detail.removeAttribute('aria-labelledby');
+    /* A 404 means the key is wrong, not that the network failed, so say so. */
+    var notFound = !!error && error.status === 404;
     els.detail.innerHTML = NS.render.errorState({
-      label: 'Connection problem',
-      title: 'We couldn’t load this book',
-      text: 'The record didn’t come back from Open Library. Check your connection and try again — the book key stays in the address bar.',
+      label: notFound ? 'Book not found' : 'Connection problem',
+      title: notFound ? 'We couldn’t find that book' : 'We couldn’t load this book',
+      text: notFound
+        ? 'Open Library has no work with that key. The link may be incomplete or the record may have been removed. Try searching for the title instead.'
+        : 'The record didn’t come back from Open Library. Check your connection and try again. The book key stays in the address bar.',
       detail: (error && error.detail) || 'network error'
     });
   }
