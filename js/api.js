@@ -197,6 +197,56 @@ window.NeoBF = window.NeoBF || {};
     return clean[0];
   }
 
+  /* Open Library files New York Times bestseller-list tags in `subjects`, both
+     as `nyt:<list>=<week>` and as a plain "New York Times bestseller" label.
+     Those are not genres, so cleanSubjects() drops them from the tag list and
+     this surfaces the fact once, as a single badge. */
+  var NYT_TAG_PATTERN = /^nyt:([a-z0-9-]+)=(\d{4}-\d{2}-\d{2})$/i;
+  var MONTH_NAMES = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  function humaniseListSlug(slug) {
+    return String(slug).split('-').map(function (word) {
+      return word ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+    }).join(' ');
+  }
+
+  function readableWeek(value) {
+    var parts = String(value).split('-');
+    var month = parseInt(parts[1], 10);
+    if (!month || month < 1 || month > 12 || !parts[0]) { return value; }
+    return MONTH_NAMES[month - 1] + ' ' + parts[0];
+  }
+
+  function bestsellerFromSubjects(subjects) {
+    if (!Array.isArray(subjects)) { return null; }
+
+    var i;
+    for (i = 0; i < subjects.length; i += 1) {
+      var tag = String(subjects[i] || '').trim().match(NYT_TAG_PATTERN);
+      if (tag) {
+        return {
+          label: 'New York Times bestseller',
+          note: humaniseListSlug(tag[1]) + ', ' + readableWeek(tag[2])
+        };
+      }
+    }
+    for (i = 0; i < subjects.length; i += 1) {
+      var text = String(subjects[i] || '').trim();
+      if (/new york times/i.test(text) && /best ?sell/i.test(text)) {
+        return { label: 'New York Times bestseller', note: '' };
+      }
+    }
+    for (i = 0; i < subjects.length; i += 1) {
+      if (/best ?sell/i.test(String(subjects[i] || ''))) {
+        return { label: 'Bestseller', note: '' };
+      }
+    }
+    return null;
+  }
+
   function languageName(code) {
     if (!code) { return ''; }
     return LANGUAGE_NAMES[code] || code.toUpperCase();
@@ -466,6 +516,7 @@ window.NeoBF = window.NeoBF || {};
           subject: pickSubject(rawSubjects),
           subjects: subjects,
           subjectList: truncateList(subjects, 8),
+          bestseller: bestsellerFromSubjects(rawSubjects),
           description: descriptionText(work),
           coverId: coverId,
           cover: coverId ? coverUrl(coverId, 'L') : PLACEHOLDER_COVER,
@@ -491,6 +542,7 @@ window.NeoBF = window.NeoBF || {};
     workPageUrl: workPageUrl,
     pickSubject: pickSubject,
     cleanSubjects: cleanSubjects,
+    bestsellerFromSubjects: bestsellerFromSubjects,
     authorText: authorText,
     languageName: languageName,
     PLACEHOLDER_COVER: PLACEHOLDER_COVER

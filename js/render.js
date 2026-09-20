@@ -82,6 +82,7 @@ window.NeoBF = window.NeoBF || {};
     arrowDown: '<svg class="btn__icon icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6"/></svg>',
     chevronRight: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6"/></svg>',
     heart: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10z"/></svg>',
+    star: '<svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/></svg>',
     external: '<svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>',
     search: '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
     close: '<svg class="icon icon--sm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg>',
@@ -449,6 +450,19 @@ window.NeoBF = window.NeoBF || {};
       '</dl>';
   }
 
+  /* A single, tidy badge for list/award facts that Open Library files under
+     `subjects` (currently New York Times bestseller). Kept out of the tag list. */
+  function bestsellerMarkup(detail) {
+    var bestseller = detail.bestseller;
+    if (!bestseller || !bestseller.label) { return ''; }
+    var note = bestseller.note || '';
+    return '<p class="detail__badge"' + (note ? ' title="' + escapeHtml(note) + '"' : '') + '>' +
+      icon.star +
+      '<span>' + escapeHtml(bestseller.label) + '</span>' +
+      (note ? '<span class="visually-hidden">: ' + escapeHtml(note) + '</span>' : '') +
+      '</p>';
+  }
+
   function detailView(detail, options) {
     var settings = options || {};
     var isFavorite = !!settings.isFavorite;
@@ -483,6 +497,7 @@ window.NeoBF = window.NeoBF || {};
       '<p class="eyebrow">' + escapeHtml(detail.subject) + '</p>' +
       '<h1 class="detail__title" id="detail-title">' + escapeHtml(detail.title) + '</h1>' +
       '<p class="detail__author">by <strong>' + escapeHtml(detail.author) + '</strong></p>' +
+      bestsellerMarkup(detail) +
       '</div>' +
       factsMarkup(detail) +
       '<section class="detail__section" aria-labelledby="detail-about">' +

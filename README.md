@@ -240,6 +240,10 @@ Book-Finder/
   the work record sometimes omits. The detail page falls back to the first edition cover and to the
   author shown on the card, and if the editions request fails it says so instead of reporting that the
   work has no editions.
+- **Subjects are community tags.** Open Library mixes genres with list keys, award text and library
+  tags in the same `subjects` array (for example `nyt:young-adult-paperback-monthly=2023-12-10`).
+  The detail page filters those out and shows a New York Times bestseller entry once as a badge,
+  separate from the genre tags.
 - **Google Fonts require network access.** Offline, the fallback stacks (Iowan Old Style / Palatino /
   Georgia and system-ui) take over and the layout stays intact.
 - **Favorites are per-browser.** They live in `localStorage`, so they do not follow the user between
