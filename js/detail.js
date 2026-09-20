@@ -17,7 +17,7 @@ window.NeoBF = window.NeoBF || {};
      key, so this only affects a bare URL. */
   var DEFAULT_WORK_KEY = '/works/OL893414W';
 
-  var els = { detail: null, backLink: null, breadcrumb: null };
+  var els = { detail: null, backLink: null, breadcrumb: null, status: null };
   var context = { query: '', mode: 'all', subject: '' };
   var currentKey = '';
   var currentDetail = null;
@@ -55,9 +55,17 @@ window.NeoBF = window.NeoBF || {};
      Rendering
      --------------------------------------------------------------------- */
 
+  /* Keep the polite live region in the loop so a loaded record is announced
+     instead of appearing silently for screen-reader users. */
+  function announce(message) {
+    if (els.status) { els.status.textContent = message; }
+  }
+
   function showLoading() {
     els.detail.className = 'detail detail--loading';
     els.detail.setAttribute('aria-busy', 'true');
+    /* The skeleton has no #detail-title, so drop the dangling reference. */
+    els.detail.removeAttribute('aria-labelledby');
     els.detail.innerHTML = NS.render.detailSkeleton();
   }
 
@@ -87,10 +95,13 @@ window.NeoBF = window.NeoBF || {};
     els.detail.innerHTML = NS.render.detailView(detail, {
       isFavorite: NS.favorites.has(detail.key)
     });
+    /* The title now exists, so point the region at it for a proper name. */
+    els.detail.setAttribute('aria-labelledby', 'detail-title');
 
     updateHead(detail);
     updateBreadcrumb(detail);
     NS.favorites.syncButtons();
+    announce('Details loaded for ' + detail.title + '.');
   }
 
   function renderError(error) {
@@ -183,6 +194,7 @@ window.NeoBF = window.NeoBF || {};
 
     els.backLink = document.querySelector('.detail-topbar .back-link');
     els.breadcrumb = document.querySelector('ol.breadcrumb');
+    els.status = document.getElementById('detail-status');
 
     /* readParams() fills `context`, so it must run before backHref() — otherwise
        the back link is built while the query is still empty and loses ?q=. */
