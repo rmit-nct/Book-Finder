@@ -63,7 +63,7 @@ The four components named in the brief, and where they live:
 
 | Component | Hook | Notes |
 |---|---|---|
-| **SearchBar** | `#search`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author). States: default, hover, focus, filled, disabled. |
+| **SearchBar** | `#search-form`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author). States: default, hover, focus, filled, disabled. |
 | **ResultsGrid** | `#results-grid.book-grid` | 1 → 2 → 3 → 4 columns. `.book-grid--list` switches to a list layout. |
 | **BookCard** | `.book-card` | 2:3 cover, subject, title (2-line clamp), author, year + edition count, favorite toggle (`aria-pressed`), "View details" link with a stretched hit area. |
 | **DetailView** | `.detail`, `#detail` | Two columns ≥1024px, one column below. Ready to be placed inside a `<dialog>`. |

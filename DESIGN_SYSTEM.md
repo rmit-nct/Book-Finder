@@ -58,7 +58,7 @@ Line heights: `--leading-tight` 1.08 (display), `--leading-snug` 1.25 (headings)
 | Component | Class / hook | Notes |
 |---|---|---|
 | Header | `.site-header`, `.site-nav` | Mobile: brand on top, three-item nav row below (no JS menu). The active link uses `aria-current`, a background and an underline. |
-| SearchBar | `#search`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author), states: default, hover, focus, filled (`:placeholder-shown`), disabled. Phase 2: convert the wrapper to `<form>` and the button to `type="submit"`. |
+| SearchBar | `#search-form`, `#search-input`, `#search-button`, `input[name="search-mode"]` | Visible label, native radio segmented control (All / Title / Author), states: default, hover, focus, filled (`:placeholder-shown`), disabled. Phase 2: converted the wrapper to `<form>` and the button to `type="submit"`. |
 | Featured book | `.featured` | Beige panel with decorative dunes (`assets/decor-dunes.svg`), large cover, tags, actions. |
 | Toolbar | `.toolbar`, `#results-count`, `#results-subject`, `#results-year`, `#results-sort` | Native `<select>`s with visible inline labels. Grid/list toggle buttons use `aria-pressed`. |
 | ResultsGrid | `#results-grid.book-grid` | 2 → 3 → 4 columns (1 below 360px). `.book-grid--list` switches to list layout. |
